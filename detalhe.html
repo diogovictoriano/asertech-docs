@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASER_TECH — Detalhe técnico</title>
+<style>
+:root{
+  --bg:#f3f5f8;--card:#ffffff;--ink:#16202b;--muted:#5b6876;--line:#dfe4ea;--soft:#f6f8fa;
+  --accent:#1f5f8b;--warn-bg:#fff7e6;--warn:#a1620b;--info-bg:#eef5fb;--info:#1f5f8b;--ok:#2f7d4f;
+  --art:#2563a8;--enc:#0f8a7e;--doc:#7048b8;--gar:#b4661a;--cli:#c03f6b;--fin:#3f7d3a;--ctl:#5d6b78;
+  --full:#2c3a4a;--inc:#3b82f6;--code-bg:#13202d;--code-ink:#d8e6f0;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f151c;--card:#17202a;--ink:#e4eaf0;--muted:#9aa8b6;--line:#2a3643;--soft:#1c2733;
+  --accent:#7cb8e6;--warn-bg:#2b2213;--warn:#e6b25c;--info-bg:#15283a;--info:#8cc2ec;--ok:#7cc79a;
+  --art:#6fa6e8;--enc:#4cc3b6;--doc:#ab8fe6;--gar:#e2a05a;--cli:#ec7fa3;--fin:#86c27f;--ctl:#a3b0bd;
+  --full:#d5dde6;--inc:#6aa8ff;--code-bg:#0b1118;--code-ink:#d8e6f0;
+}}
+:root[data-theme="dark"]{
+  --bg:#0f151c;--card:#17202a;--ink:#e4eaf0;--muted:#9aa8b6;--line:#2a3643;--soft:#1c2733;
+  --accent:#7cb8e6;--warn-bg:#2b2213;--warn:#e6b25c;--info-bg:#15283a;--info:#8cc2ec;--ok:#7cc79a;
+  --art:#6fa6e8;--enc:#4cc3b6;--doc:#ab8fe6;--gar:#e2a05a;--cli:#ec7fa3;--fin:#86c27f;--ctl:#a3b0bd;
+  --full:#d5dde6;--inc:#6aa8ff;--code-bg:#0b1118;--code-ink:#d8e6f0;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Segoe UI",system-ui,-apple-system,Arial,sans-serif}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+code,.mono{font-family:Consolas,"Cascadia Mono",ui-monospace,monospace;font-size:.86em}
+h1,h2,h3{line-height:1.2;margin:0}
+.layout{display:grid;grid-template-columns:230px minmax(0,1fr);max-width:1500px;margin:auto}
+aside{position:sticky;top:0;height:100vh;padding:28px 18px;border-right:1px solid var(--line);overflow:auto}
+aside .brand{font-weight:800;font-size:18px;letter-spacing:.02em}
+aside .brand small{display:block;font-weight:500;font-size:12px;color:var(--muted);letter-spacing:0}
+aside nav{margin-top:22px;display:flex;flex-direction:column;gap:2px}
+aside nav a{display:flex;gap:10px;align-items:center;padding:7px 10px;border-radius:8px;color:var(--ink);font-size:14px}
+aside nav a span{color:var(--muted);font-size:12px;width:18px}
+aside nav a:hover{background:var(--card);text-decoration:none}
+aside .meta{margin-top:24px;font-size:12px;color:var(--muted)}
+aside button{margin-top:14px;width:100%}
+main{padding:28px 32px 80px;min-width:0}
+header.hero{padding:6px 0 18px}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11.5px;font-weight:700;color:var(--muted)}
+header.hero h1{font-size:34px;margin:6px 0 6px}
+header.hero p{color:var(--muted);max-width:820px;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin:22px 0 4px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--muted)}
+section{margin-top:34px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-head .num{font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 7px}
+.sec-head h2{font-size:23px}
+.lead{color:var(--muted);margin:0 0 16px;max-width:880px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.callout{border-radius:10px;padding:12px 16px;margin:14px 0;font-size:14px;display:flex;gap:10px}
+.callout::before{font-weight:800}
+.callout.info{background:var(--info-bg);color:var(--ink)}.callout.info::before{content:"i";color:var(--info);border:1.5px solid var(--info);border-radius:50%;width:18px;height:18px;flex:none;display:grid;place-items:center;font-size:11px;margin-top:2px}
+.callout.warn{background:var(--warn-bg)}.callout.warn::before{content:"!";color:var(--warn);border:1.5px solid var(--warn);border-radius:50%;width:18px;height:18px;flex:none;display:grid;place-items:center;font-size:11px;margin-top:2px}
+.pill{display:inline-block;font-size:11px;font-weight:700;border-radius:999px;padding:1px 8px;border:1px solid currentColor;white-space:nowrap;line-height:1.6}
+.pill.full{color:var(--full)}.pill.inc{color:var(--inc)}.pill.muted{color:var(--muted)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:7px;vertical-align:1px}
+button{font:inherit;font-size:13px;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--accent)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
+tr:last-child td{border-bottom:0}
+.scroll{overflow-x:auto}
+details{border:1px solid var(--line);border-radius:12px;background:var(--card);margin:10px 0}
+details>summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details>summary::-webkit-details-marker{display:none}
+details>summary::after{content:"+";color:var(--muted);font-weight:400}
+details[open]>summary::after{content:"–"}
+details>.body{padding:0 16px 14px}
+pre{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:14px 16px;overflow:auto;font-size:12.5px;line-height:1.6;margin:8px 0}
+pre .c{color:#8aa3b5}
+
+/* Diagrama */
+.diagram{padding:12px}
+.diagram>svg{width:100%;height:auto;display:block}
+.diagram .panel{fill:var(--soft);stroke:var(--line)}
+.diagram .ptitle{font:700 12px "Segoe UI",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.diagram .node rect{fill:var(--card);stroke-width:1.6}
+.diagram .node text{font:600 12.5px "Segoe UI",sans-serif;fill:var(--ink)}
+.diagram .node.sub text{font-weight:500;font-size:11.5px}
+.diagram .node.sub rect{stroke-dasharray:0;stroke-width:1}
+.diagram .node.ghost rect{stroke-dasharray:5 4}
+.diagram a:hover rect{fill:var(--info-bg)}
+.diagram .cap{font:11px "Segoe UI",sans-serif;fill:var(--muted)}
+.diagram .lbl{font:600 10.5px "Segoe UI",sans-serif;fill:var(--muted)}
+.e-fk{stroke:var(--ink);stroke-width:2;fill:none}
+.e-impl{stroke:var(--ink);stroke-width:1.6;stroke-dasharray:7 5;fill:none}
+.e-dom{stroke:var(--muted);stroke-width:1.3;stroke-dasharray:1.5 4;stroke-linecap:round;fill:none}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--muted);padding:6px 8px 2px}
+.legend svg{vertical-align:middle;margin-right:6px}
+
+/* Fluxo */
+.pipeline{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:stretch;gap:8px}
+.stage{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stage b{display:block;font-size:14px}
+.stage small{color:var(--muted);font-size:12.5px;display:block;margin-top:4px}
+.arrow{align-self:center;color:var(--muted);font-size:20px}
+.chain{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;margin-top:14px;counter-reset:s}
+.step{position:relative;padding:14px 12px 12px;background:var(--card);border:1px solid var(--line);border-left:0;min-width:0}
+.step:first-child{border-left:1px solid var(--line);border-radius:12px 0 0 12px}
+.step:last-child{border-radius:0 12px 12px 0}
+.step .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c);color:#fff;font-size:12px;font-weight:700}
+.step b{display:block;margin-top:8px;font-size:14px}
+.step small{display:block;color:var(--muted);font-size:12px;margin:2px 0 8px}
+.chain-foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{font-size:12.5px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+
+/* Linha do tempo */
+.tl{position:relative}
+.tl-row{display:grid;grid-template-columns:190px minmax(0,1fr);align-items:center;min-height:42px;border-bottom:1px dashed var(--line)}
+.tl-row:last-of-type{border-bottom:0}
+.tl-name{font-size:13.5px;font-weight:600;padding-right:10px}
+.tl-name small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.tl-track{position:relative;height:42px}
+.tl-track::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100%/24 - 1px),var(--line) calc(100%/24 - 1px) calc(100%/24))}
+.band{position:absolute;top:12px;height:18px;border-radius:5px;font-size:10.5px;font-weight:700;color:#fff;display:flex;align-items:center;padding:0 7px;white-space:nowrap;overflow:hidden}
+.band.inc{background:var(--inc)}
+.band.full{background:var(--full);color:var(--bg)}
+.mark{position:absolute;top:13px;width:16px;height:16px;margin-left:-8px;transform:rotate(45deg);background:var(--full);border-radius:2px}
+.mark-l{position:absolute;top:13px;font-size:11px;font-weight:700;margin-left:12px;color:var(--ink)}
+.tl-axis{display:grid;grid-template-columns:190px minmax(0,1fr)}
+.tl-axis div{position:relative;height:20px;font-size:11px;color:var(--muted)}
+.tl-axis span{position:absolute;transform:translateX(-50%)}
+.night{position:absolute;top:0;bottom:0;background:var(--soft)}
+
+/* Sincronismos */
+.sync-group{margin-top:18px}
+.sync-group h3{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:var(--c);margin-bottom:8px}
+.sync-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.sync{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:12px;padding:14px 16px;font-size:13.5px}
+.sync .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.sync .top a{font-weight:700;font-size:15px;color:var(--ink)}
+.sync .src{margin:6px 0 10px;color:var(--muted)}
+.sync dl{display:grid;grid-template-columns:78px minmax(0,1fr);gap:4px 10px;margin:0}
+.sync dt{color:var(--muted);font-size:12px}
+.sync dd{margin:0;overflow-wrap:anywhere}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:13.5px}
+.rule b{display:block;margin-bottom:4px}
+
+/* Relações */
+.rel{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:13.5px}
+.tbox{border:1px solid var(--line);border-left:3px solid var(--c);border-radius:8px;padding:6px 10px;background:var(--soft)}
+.tbox b{display:block;font-size:13.5px}
+.tbox code{color:var(--muted)}
+.rel .to{color:var(--muted);font-size:14px;padding-left:14px;line-height:1}
+.rel-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.rel-card p{margin:10px 0 0;font-size:13px;color:var(--muted)}
+.rel-card .src{font-size:12px;margin-top:8px}
+
+/* Dicionário */
+.dict{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;align-items:start}
+.dict-list{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.dict-list input{width:100%;font:inherit;font-size:14px;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.dict-list .count{font-size:12px;color:var(--muted);margin:6px 2px 4px}
+.dict-list h4{margin:12px 4px 4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--c)}
+.dict-list a{display:flex;justify-content:space-between;padding:5px 8px;border-radius:7px;color:var(--ink);font-size:13.5px}
+.dict-list a small{color:var(--muted)}
+.dict-list a:hover{background:var(--soft);text-decoration:none}
+.dict-list a.sel{background:var(--ink);color:var(--bg)}.dict-list a.sel small{color:inherit;opacity:.7}
+.tdetail{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;padding:20px;min-width:0}
+.tdetail h3{font-size:22px}
+.tdetail .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:14px 0}
+.fact{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:13px}
+.fact span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.tdetail h4{margin:20px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.k{display:inline-block;font-size:10px;font-weight:800;border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:1px}
+.k.pk{background:var(--ink);color:var(--bg)}.k.fk{background:var(--doc);color:#fff}.k.uq{border:1px solid var(--muted);color:var(--muted)}
+.null{font-size:11px;color:var(--muted)}
+.tag{display:inline-block;font-size:11px;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin:1px 4px 1px 0}
+mark{background:#ffe48a;color:#16202b;border-radius:2px}
+#print-all{display:none}
+
+/* Estado e operação */
+.markers{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.marker{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--c);border-radius:10px;padding:10px 14px;font-size:13px}
+.marker b{font-size:14px}
+.marker .t{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12.5px}
+.steps{counter-reset:k;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:k;position:relative;padding:0 0 16px 40px}
+.steps li::before{content:counter(k);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--card);display:grid;place-items:center;font-weight:700;font-size:13px}
+.steps li::after{content:"";position:absolute;left:12.5px;top:30px;bottom:4px;width:1px;background:var(--line)}
+.steps li:last-child::after{display:none}
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dodont ul{margin:8px 0 0;padding-left:18px;font-size:13.5px}
+.dodont li{margin:5px 0}
+.attn{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.attn div{background:var(--warn-bg);border-radius:10px;padding:12px 14px;font-size:13.5px}
+.attn b{display:block;margin-bottom:3px}
+footer{margin-top:40px;font-size:12px;color:var(--muted)}
+
+@media(max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.chain{grid-template-columns:repeat(4,minmax(0,1fr))}.step,.step:first-child,.step:last-child{border:1px solid var(--line);border-radius:12px;margin:4px}.pipeline{grid-template-columns:1fr}.pipeline .arrow{transform:rotate(90deg);justify-self:center}}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  aside{position:sticky;top:0;z-index:5;height:auto;padding:10px 16px;border-right:0;border-bottom:1px solid var(--line);background:var(--bg)}
+  aside .brand,aside .meta,aside button{display:none}
+  aside nav{margin:0;flex-direction:row;overflow-x:auto;white-space:nowrap}
+  aside nav a span{display:none}
+  main{padding:18px 16px 60px}
+  header.hero h1{font-size:28px}
+  .grid2,.grid3,.rules,.dodont,.dict{grid-template-columns:1fr}
+  .dict-list{position:static;max-height:340px}
+  .chain{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tl-row,.tl-axis{grid-template-columns:110px minmax(0,1fr)}
+  .band{font-size:0}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media print{
+  body{background:#fff;color:#000;font-size:10pt}
+  .layout{display:block}aside,.filters,.dict-list,#tdetail{display:none}
+  main{padding:0}section{break-inside:auto}
+  .card,.sync,.rule,.tdetail,.marker{break-inside:avoid}
+  #print-all{display:block}
+  details{border:0}details>.body{display:block!important}
+  pre{white-space:pre-wrap}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <div class="brand">ASER_TECH<small>Estrutura, relações e sincronizações</small></div>
+  <nav aria-label="Índice">
+    <a href="#mapa"><span>01</span>Mapa do modelo</a>
+    <a href="#fluxo"><span>02</span>Fluxo de dados</a>
+    <a href="#horarios"><span>03</span>Horários</a>
+    <a href="#sinc"><span>04</span>Sincronismos</a>
+    <a href="#relacoes"><span>05</span>Relações</a>
+    <a href="#dicionario"><span>06</span>Tabelas e colunas</a>
+    <a href="#estado"><span>07</span>Marcadores</a>
+    <a href="#operacao"><span>08</span>Operação</a>
+    <a href="#fontes"><span>09</span>Fontes</a>
+  </nav>
+  <div class="meta"><a href="index.html">← Voltar ao resumo</a><br><br>Estrutura consultada a 28/10/2026, 11:57:59<br>Código de referência: commit <code>abe86c2</code></div>
+  <button id="print" type="button">Imprimir / guardar PDF</button>
+</aside>
+
+<main>
+<header class="hero">
+  <div class="eyebrow">Documentação técnica e operacional · 28 outubro 2026</div>
+  <h1>ASER_TECH</h1>
+  <p>Como os dados chegam do OpenEdge ao SQL Server, como as tabelas se ligam entre si, quando cada sincronismo corre e o que fazer quando algo falha.</p>
+  <div class="kpis">
+    <div class="kpi"><b>32</b><span>tabelas SQL</span></div>
+    <div class="kpi"><b>23</b><span>tabelas de negócio</span></div>
+    <div class="kpi"><b>9</b><span>marcadores incrementais</span></div>
+    <div class="kpi"><b>397</b><span>colunas</span></div>
+    <div class="kpi"><b>29</b><span>chaves primárias</span></div>
+    <div class="kpi"><b>3</b><span>chaves estrangeiras</span></div>
+  </div>
+  <div class="callout info"><div>Base <code>ASER_TECH</code> · compatibilidade 150 · collation <code>Latin1_General_CI_AS</code> · recovery model FULL. Estrutura lida dos catálogos <code>sys.*</code> (só SELECTs). Os horários vêm dos scripts do repositório, não do Agendador de Tarefas do servidor.</div></div>
+</header>
+
+<!-- 01 MAPA -->
+<section id="mapa">
+  <div class="sec-head"><span class="num">01</span><h2>Mapa do modelo</h2></div>
+  <p class="lead">As tabelas agrupadas por área de negócio e as ligações principais. Clica numa tabela para abrir a ficha com todas as colunas.</p>
+  <div class="card diagram">
+  <svg viewBox="0 0 1200 600" role="img" aria-label="Diagrama das tabelas ASER_TECH agrupadas por área e respetivas ligações">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker>
+    </defs>
+    <g style="color:var(--ink)">
+    <!-- Painéis -->
+    <rect class="panel" x="20" y="20" width="370" height="270" rx="14"/>
+    <text class="ptitle" x="38" y="44" style="fill:var(--art)">Artigos</text>
+    <rect class="panel" x="415" y="20" width="370" height="270" rx="14"/>
+    <text class="ptitle" x="433" y="44" style="fill:var(--enc)">Encomendas e Ptelin</text>
+    <rect class="panel" x="810" y="20" width="370" height="270" rx="14"/>
+    <text class="ptitle" x="828" y="44" style="fill:var(--doc)">Documentos e devoluções</text>
+    <rect class="panel" x="20" y="310" width="370" height="270" rx="14"/>
+    <text class="ptitle" x="38" y="334" style="fill:var(--gar)">Garantias</text>
+    <rect class="panel" x="415" y="310" width="370" height="270" rx="14"/>
+    <text class="ptitle" x="433" y="334" style="fill:var(--cli)">Clientes e catálogos</text>
+    <rect class="panel" x="810" y="310" width="370" height="270" rx="14"/>
+    <text class="ptitle" x="828" y="334" style="fill:var(--fin)">Financeiro e controlo</text>
+
+    <!-- Arestas -->
+    <path class="e-impl" d="M88,150 L170,96" marker-end="url(#ah)"/>
+    <path class="e-impl" d="M204,150 L205,96" marker-end="url(#ah)"/>
+    <path class="e-dom" d="M320,150 L240,96" marker-end="url(#ah)"/>
+    <text class="lbl" x="292" y="116">teReferencia</text>
+
+    <path class="e-fk" d="M515,150 L515,96" marker-end="url(#ah)"/>
+    <text class="lbl" x="523" y="128">2 FK</text>
+    <path class="e-dom" d="M515,190 L560,230"/>
+    <path class="e-dom" d="M692,190 L650,230"/>
+
+    <path class="e-impl" d="M920,150 L920,96" marker-end="url(#ah)"/>
+    <text class="lbl" x="928" y="128">inid_cab · reconciliação</text>
+    <path class="e-impl" d="M920,230 L920,191" marker-end="url(#ah)"/>
+    <text class="lbl" x="928" y="215">copia ligações</text>
+    <path class="e-impl" d="M835,170 L766,170" marker-end="url(#ah)"/>
+    <text class="lbl" x="770" y="162">inPteCar=1</text>
+    <path class="e-impl" d="M850,150 L850,120 L560,120 L560,149" marker-end="url(#ah)"/>
+    <text class="lbl" x="640" y="113">inPteCar=0 · inid_encomenda</text>
+
+    <path class="e-fk" d="M130,455 L130,396" marker-end="url(#ah)"/>
+    <text class="lbl" x="140" y="430">FK · no máximo 1 veículo por garantia</text>
+
+    <path class="e-dom" d="M570,415 L495,382" marker-end="url(#ah)"/>
+    <path class="e-dom" d="M600,415 L605,382" marker-end="url(#ah)"/>
+    <path class="e-dom" d="M570,460 L512,509" marker-end="url(#ah)"/>
+    <path class="e-dom" d="M630,460 L690,509" marker-end="url(#ah)"/>
+    </g>
+
+    <!-- Nós: Artigos -->
+    <a href="#t=Art_Referencias" class="node"><rect x="125" y="55" width="160" height="40" rx="8" stroke="var(--art)"/><text x="205" y="80" text-anchor="middle">Art_Referencias</text></a>
+    <a href="#t=Art_Stocks" class="node"><rect x="35" y="150" width="106" height="38" rx="8" stroke="var(--art)"/><text x="88" y="174" text-anchor="middle">Art_Stocks</text></a>
+    <a href="#t=Art_Localizacao" class="node"><rect x="151" y="150" width="106" height="38" rx="8" stroke="var(--art)"/><text x="204" y="174" text-anchor="middle">Art_Localizacao</text></a>
+    <a href="#t=Art_PVP" class="node"><rect x="267" y="150" width="106" height="38" rx="8" stroke="var(--art)"/><text x="320" y="174" text-anchor="middle">Art_PVP</text></a>
+    <a href="#t=Art_Marcas" class="node sub"><rect x="35" y="222" width="106" height="30" rx="7" stroke="var(--art)"/><text x="88" y="241" text-anchor="middle">Art_Marcas</text></a>
+    <a href="#t=Art_Familias" class="node sub"><rect x="151" y="222" width="106" height="30" rx="7" stroke="var(--art)"/><text x="204" y="241" text-anchor="middle">Art_Familias</text></a>
+    <a href="#t=Art_Seccao" class="node sub"><rect x="267" y="222" width="106" height="30" rx="7" stroke="var(--art)"/><text x="320" y="241" text-anchor="middle">Art_Seccao</text></a>
+    <text class="cap" x="35" y="274">Catálogos ligados por código (teMarca / teFamilia / teSeccao)</text>
+
+    <!-- Nós: Encomendas -->
+    <a href="#t=Cli_EncomendasCab" class="node"><rect x="440" y="55" width="150" height="40" rx="8" stroke="var(--enc)"/><text x="515" y="80" text-anchor="middle">Cli_EncomendasCab</text></a>
+    <a href="#t=Cli_EncomendasLin" class="node"><rect x="440" y="150" width="150" height="40" rx="8" stroke="var(--enc)"/><text x="515" y="175" text-anchor="middle">Cli_EncomendasLin</text></a>
+    <a href="#t=Cli_Ptelin" class="node"><rect x="620" y="150" width="145" height="40" rx="8" stroke="var(--enc)"/><text x="692" y="175" text-anchor="middle">Cli_Ptelin</text></a>
+    <a href="#estado" class="node sub"><rect x="500" y="230" width="210" height="30" rx="15" stroke="var(--ctl)"/><text x="605" y="249" text-anchor="middle">sequência OE_LinhasGlobaisId</text></a>
+    <text class="cap" x="500" y="277">IDs de linha partilhados, sem colisões</text>
+
+    <!-- Nós: Documentos -->
+    <a href="#t=Cli_DocumentosCab" class="node"><rect x="835" y="55" width="170" height="40" rx="8" stroke="var(--doc)"/><text x="920" y="80" text-anchor="middle">Cli_DocumentosCab</text></a>
+    <a href="#t=Cli_DocumentosLin" class="node"><rect x="835" y="150" width="170" height="40" rx="8" stroke="var(--doc)"/><text x="920" y="175" text-anchor="middle">Cli_DocumentosLin</text></a>
+    <a href="#t=Cli_DevolucoesLin" class="node"><rect x="835" y="230" width="170" height="40" rx="8" stroke="var(--doc)"/><text x="920" y="255" text-anchor="middle">Cli_DevolucoesLin</text></a>
+
+    <!-- Nós: Garantias -->
+    <a href="#t=Cli_Garantias" class="node"><rect x="45" y="355" width="170" height="40" rx="8" stroke="var(--gar)"/><text x="130" y="380" text-anchor="middle">Cli_Garantias</text></a>
+    <a href="#t=Cli_garantia_veiculo" class="node"><rect x="45" y="455" width="170" height="40" rx="8" stroke="var(--gar)"/><text x="130" y="480" text-anchor="middle">Cli_garantia_veiculo</text></a>
+    <text class="cap" x="45" y="530">Referências a faturas/créditos por código,</text>
+    <text class="cap" x="45" y="546">não por ID (ver relações de domínio).</text>
+
+    <!-- Nós: Clientes -->
+    <a href="#t=Clientes" class="node"><rect x="525" y="415" width="150" height="44" rx="8" stroke="var(--cli)"/><text x="600" y="442" text-anchor="middle">Clientes</text></a>
+    <a href="#t=Zonas" class="node sub"><rect x="435" y="350" width="105" height="32" rx="7" stroke="var(--cli)"/><text x="487" y="370" text-anchor="middle">Zonas</text></a>
+    <a href="#t=Vendedores" class="node sub"><rect x="550" y="350" width="110" height="32" rx="7" stroke="var(--cli)"/><text x="605" y="370" text-anchor="middle">Vendedores</text></a>
+    <a href="#t=Utilizadores" class="node sub"><rect x="670" y="350" width="105" height="32" rx="7" stroke="var(--cli)"/><text x="722" y="370" text-anchor="middle">Utilizadores</text></a>
+    <a href="#t=Cli_Modo_Entrega" class="node sub"><rect x="430" y="510" width="165" height="32" rx="7" stroke="var(--cli)"/><text x="512" y="530" text-anchor="middle">Cli_Modo_Entrega</text></a>
+    <a href="#t=Cli_Modo_Pagamento" class="node sub"><rect x="605" y="510" width="170" height="32" rx="7" stroke="var(--cli)"/><text x="690" y="530" text-anchor="middle">Cli_Modo_Pagamento</text></a>
+    <text class="cap" x="433" y="566">Cliente = teEmpresa + inCodigo (nunca por inid)</text>
+
+    <!-- Nós: Financeiro e controlo -->
+    <a href="#t=Cli_Conta_Corrente" class="node"><rect x="835" y="355" width="165" height="40" rx="8" stroke="var(--fin)"/><text x="917" y="380" text-anchor="middle">Cli_Conta_Corrente</text></a>
+    <a href="#t=Cli_Pagamentos" class="node ghost"><rect x="1010" y="355" width="150" height="40" rx="8" stroke="var(--fin)"/><text x="1085" y="380" text-anchor="middle">Cli_Pagamentos</text></a>
+    <text class="cap" x="1010" y="412">sem importador identificado</text>
+    <a href="#estado" class="node"><rect x="835" y="445" width="325" height="56" rx="8" stroke="var(--ctl)"/><text x="997" y="469" text-anchor="middle">9 marcadores OE_*Sync</text><text class="cap" x="997" y="489" text-anchor="middle">ponto de leitura de cada incremental</text></a>
+    <text class="cap" x="835" y="530">Conta corrente = destino do cobro OpenEdge.</text>
+    <text class="cap" x="835" y="546">Liga a documentos por código, vários vencimentos.</text>
+  </svg>
+  <div class="legend">
+    <span><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" class="e-fk"/></svg>FK declarada no SQL</span>
+    <span><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" class="e-impl"/></svg>Ligação calculada pelo importador (sem FK)</span>
+    <span><svg width="34" height="10"><line x1="0" y1="5" x2="34" y2="5" class="e-dom"/></svg>Relação de domínio, por código (não verificada)</span>
+    <span><svg width="34" height="12"><rect x="1" y="1" width="32" height="10" rx="3" fill="none" stroke="currentColor" stroke-dasharray="4 3"/></svg>Tabela sem importador</span>
+  </div>
+  </div>
+</section>
+
+<!-- 02 FLUXO -->
+<section id="fluxo">
+  <div class="sec-head"><span class="num">02</span><h2>Fluxo de dados</h2></div>
+  <p class="lead">Cada sincronismo lê o OpenEdge, valida em staging e grava no SQL Server. Os incrementais guardam o ponto onde ficaram num marcador.</p>
+  <div class="pipeline">
+    <div class="stage"><b>OpenEdge</b><small>Tabelas <code>PUB.*</code> (referencia, cobro, garantia…)</small></div>
+    <div class="arrow">→</div>
+    <div class="stage"><b>Importador <code>importar_*.py</code></b><small>Lê full ou delta por datas; valida chaves, tipos e comprimentos em staging</small></div>
+    <div class="arrow">→</div>
+    <div class="stage"><b>ASER_TECH</b><small>Insere / atualiza; consoante a tabela, inativa ou elimina ausentes</small></div>
+    <div class="arrow">→</div>
+    <div class="stage"><b>Marcador <code>OE_*Sync</code></b><small>Avança só quando os dados ficam confirmados; preview e rollback não o mexem</small></div>
+  </div>
+  <div class="callout info"><div><b>Full</b> significa ler tudo e comparar, <b>não</b> apagar e recriar a tabela. As linhas existentes mantêm os seus IDs.</div></div>
+
+  <h3 style="margin-top:22px;font-size:17px">Cadeia operacional: 7 etapas em série</h3>
+  <div class="chain">
+    <div class="step" style="--c:var(--enc)"><span class="n">1</span><b>Encomendas</b><small>cabeçalhos → linhas</small><span class="pill full">full</span> <span class="pill inc">incr.</span></div>
+    <div class="step" style="--c:var(--enc)"><span class="n">2</span><b>Ptelin</b><small>medcatpteser</small><span class="pill full">full</span> <span class="pill inc">incr.</span></div>
+    <div class="step" style="--c:var(--doc)"><span class="n">3</span><b>Documentos</b><small>cabeçalhos → linhas → reconciliação</small><span class="pill full">full</span> <span class="pill inc">incr.</span></div>
+    <div class="step" style="--c:var(--doc)"><span class="n">4</span><b>Devoluções</b><small>apenas EFC</small><span class="pill full">full</span> <span class="pill inc">incr.</span></div>
+    <div class="step" style="--c:var(--gar)"><span class="n">5</span><b>Garantias</b><small>garantia</small><span class="pill full">sempre full</span></div>
+    <div class="step" style="--c:var(--gar)"><span class="n">6</span><b>Veículos</b><small>garantiaVehic</small><span class="pill full">sempre full</span></div>
+    <div class="step" style="--c:var(--fin)"><span class="n">7</span><b>Conta corrente</b><small>cobro</small><span class="pill full">full</span> <span class="pill inc">incr.</span></div>
+  </div>
+  <div class="chain-foot">
+    <span class="chip">⏹ Para no primeiro erro</span>
+    <span class="chip">🔒 Lock SQL <code>oe_cadeia_operacional</code> sobre toda a sequência</span>
+    <span class="chip">✓ Cada etapa faz commit próprio: uma falha não desfaz as anteriores</span>
+    <span class="chip">Fora da cadeia: catálogos, localizações, referências, preços, stocks e clientes</span>
+  </div>
+</section>
+
+<!-- 03 HORARIOS -->
+<section id="horarios">
+  <div class="sec-head"><span class="num">03</span><h2>Horários: um dia típico</h2></div>
+  <p class="lead">Hora local do servidor. São as definições dos scripts <code>agendar_*.ps1</code>, não uma leitura das tarefas instaladas.</p>
+  <div class="card">
+    <div class="tl" id="timeline"></div>
+    <div class="legend" style="margin-top:8px">
+      <span><span class="mark" style="position:static;display:inline-block;margin:0 8px 0 0;width:11px;height:11px;vertical-align:-1px"></span>Execução full</span>
+      <span><span style="display:inline-block;width:26px;height:11px;border-radius:3px;background:var(--full);vertical-align:-1px;margin-right:6px"></span>Full repetido</span>
+      <span><span style="display:inline-block;width:26px;height:11px;border-radius:3px;background:var(--inc);vertical-align:-1px;margin-right:6px"></span>Janela de incrementais</span>
+    </div>
+  </div>
+  <div class="scroll card" style="margin-top:14px;padding:6px 10px">
+    <table>
+      <thead><tr><th>Grupo</th><th>Full</th><th>Incremental</th><th>Instalador</th><th>Notas</th></tr></thead>
+      <tbody>
+        <tr><td><b>Cadeia operacional</b></td><td>Diário 02:00</td><td>08:05–22:05, a cada 5 min</td><td><code>agendar_cadeia_operacional.ps1</code></td><td>7 etapas; garantias/veículos sempre full. Inclui veículos, devoluções e conta corrente.</td></tr>
+        <tr><td><b>Referências</b></td><td>Diário 03:00</td><td>08:00–19:00, a cada hora</td><td><code>agendar_referencias.ps1</code></td><td>12 incrementais/dia</td></tr>
+        <tr><td><b>PVPs</b></td><td>Diário 03:00</td><td>08:03–19:03, a cada hora</td><td><code>agendar_pvps.ps1</code></td><td>12 incrementais/dia</td></tr>
+        <tr><td><b>Catálogos</b> (8 tabelas)</td><td>Diário 05:00</td><td>—</td><td><code>agendar_full_auxiliares.ps1</code></td><td>Tarefa «OE Catalogos - full»</td></tr>
+        <tr><td><b>Localizações</b></td><td>Diário 05:00</td><td>—</td><td><code>agendar_full_auxiliares.ps1</code></td><td>«OE Localizacoes - full», independente dos catálogos</td></tr>
+        <tr><td><b>Stocks</b></td><td>Diário 05:30</td><td>08:00–19:00, a cada 10 min</td><td><code>agendar_stocks.ps1</code></td><td>67 incrementais previstos/dia</td></tr>
+        <tr><td><b>Clientes</b></td><td>08:30–19:30, a cada 30 min</td><td>—</td><td><code>agendar_clientes.ps1</code></td><td>23 leituras full/dia</td></tr>
+        <tr><td><b>Garantias</b> (tarefa independente)</td><td>Seg–sáb 08:15–19:15, a cada hora</td><td>—</td><td><code>agendar_garantias.ps1</code></td><td>12 full/dia, além das garantias da cadeia</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn"><div><b>Garantias lidas duas vezes:</b> a cadeia não remove a tarefa independente «OE Garantias - full». Se estiver instalada, há leituras a mais e uma tentativa concorrente pode falhar por lock. Confirmar no servidor se deve continuar ativa.</div></div>
+  <div class="grid2">
+    <div class="card" style="font-size:13.5px"><b>Comportamento das tarefas</b><br>MultipleInstances=IgnoreNew, limite de 12 h, conta S4U. Se a execução anterior ainda estiver a correr, o disparo seguinte é ignorado, por isso «previsto» não é «garantido». Uma execução pode terminar depois do fim da janela. As tarefas das 03:00 e das 05:00 são independentes e podem sobrepor-se.</div>
+    <details style="margin:0"><summary>Agendadores antigos substituídos pela cadeia</summary><div class="body scroll">
+      <table><thead><tr><th>Grupo</th><th>Full antigo</th><th>Incremental antigo</th><th>Script</th></tr></thead><tbody>
+        <tr><td>Encomendas</td><td>Dom 16:00 cab. / 16:02 linhas</td><td>08:05–22:05 / 08:07–22:07, 5 min</td><td><code>agendar_encomendas.ps1</code></td></tr>
+        <tr><td>Ptelin</td><td>Dom 16:07</td><td>08:09–22:09, 5 min</td><td><code>agendar_ptelin.ps1</code></td></tr>
+        <tr><td>Documentos</td><td>Dom 16:09 / linhas 16:11 (parametrizável)</td><td>08:11–22:11 / 08:13–22:13, 5 min</td><td><code>agendar_documentos.ps1</code></td></tr>
+      </tbody></table>
+      <p style="font-size:13px;color:var(--muted)">O instalador da cadeia espera que estas tarefas terminem e depois remove-as. <b>Não as voltar a instalar em paralelo.</b> Os scripts ficam no repositório só como referência.</p>
+    </div></details>
+  </div>
+</section>
+
+<!-- 04 SINCRONISMOS -->
+<section id="sinc">
+  <div class="sec-head"><span class="num">04</span><h2>Sincronismos</h2></div>
+  <p class="lead">Uma ficha por tabela de destino: de onde vem, como é identificada cada linha, como se lê o delta e o que acontece aos registos que desaparecem da origem.</p>
+  <div class="filters" id="syncFilters">
+    <button type="button" data-f="all" aria-pressed="true">Todos (23)</button>
+    <button type="button" data-f="inc" aria-pressed="false">Com incremental</button>
+    <button type="button" data-f="full" aria-pressed="false">Só full</button>
+  </div>
+  <div id="syncs"></div>
+
+  <h3 style="margin:26px 0 10px;font-size:17px">Regras que afetam os resultados</h3>
+  <div class="rules">
+    <div class="rule"><b>Conta corrente</b>Delta por fedoc/fecob/fesit/feest desde a última execução confirmada, com 1 dia de sobreposição. Alterações que não mexem nessas datas só entram no full diário. Sem marcador faz full automático; delta vazio é válido; full vazio aborta.</div>
+    <div class="rule"><b>Outros incrementais</b>Referências, PVPs, stocks, encomendas, Ptelin, documentos e devoluções precisam de um full inicial para criar o marcador. Campos nulos ou alterações sem mudança de data podem escapar ao delta; o full periódico reconcilia.</div>
+    <div class="rule"><b>Eliminação de encomendas</b>Só por mensagens de eliminação confirmada em <code>reporte-lin</code> (empresa, ano, série/contador, número). Linhas e cabeçalho são eliminados numa transação. Uma ausência na origem, por si só, não é tratada como eliminação.</div>
+    <div class="rule"><b>Anulação de documentos</b><code>fac-alm-c1.fillerUPD</code> identifica os anulados. Remove linhas antes do cabeçalho. A importação EFC remove apenas as suas devoluções.</div>
+    <div class="rule"><b>Preços e quantidades</b>Decimal / SQL money com validação de precisão. Documentos: preço unitário descontado = pvpne / canmov (ROUND_HALF_UP); quantidade 0/NULL aborta. Encomendas: total da linha = pvp1 × canser. REAL/FLOAT continuam aproximados onde o schema os usa.</div>
+    <div class="rule"><b>Clientes</b>cliente ⨝ direccion por cif + dup; cliente-serie por emp + cli com sef=VEN. Não deduplica só por NIF; correspondências ausentes ou ambíguas abortam. O código postal mantém os zeros.</div>
+    <div class="rule"><b>Utilizadores</b>Chave teUtilizador. <code>loativo</code> = 0 quando fecbaja é NULL e 1 quando existe baixa. Não inverter, apesar do nome da coluna.</div>
+    <div class="rule"><b>Garantias e veículos</b>Garantias primeiro, depois veículos. scest/ssest/saest: S=1, vazio=0, NULL preservado; cerrada é booleano. O veículo herda o inid da garantia. dhdata_compra é datetime2(7) e aceita datas anteriores a 1753.</div>
+    <div class="rule"><b>Validação e staging</b>Valida chaves nulas/duplicadas, tipos e comprimentos antes de gravar. Bloqueios temporários do OE têm repetição nos loaders que a implementam, com limpeza do staging parcial.</div>
+    <div class="rule"><b>Catálogos</b>As 8 tabelas são preparadas e confirmadas numa só transação. Marcas, famílias e secções usam boAtivo; vendedores, utilizadores, modos e zonas fazem apenas INSERT/UPDATE.</div>
+  </div>
+</section>
+
+<!-- 05 RELACOES -->
+<section id="relacoes">
+  <div class="sec-head"><span class="num">05</span><h2>Relações</h2></div>
+  <p class="lead">Há três níveis de confiança: as FKs impostas pelo SQL, as ligações que os importadores calculam e as relações de domínio que existem só por código.</p>
+
+  <h3 style="font-size:16px;margin:4px 0 10px">① FKs declaradas: ativas, validadas, sem CASCADE</h3>
+  <div class="grid3">
+    <div class="rel-card"><div class="rel"><div class="tbox" style="--c:var(--enc)"><b>Cli_EncomendasLin</b><code>inId_Cab</code></div><div class="to">↓</div><div class="tbox" style="--c:var(--enc)"><b>Cli_EncomendasCab</b><code>inId</code></div></div><p class="mono">FK_Cli_EncomendasLin_Cab_ID</p></div>
+    <div class="rel-card"><div class="rel"><div class="tbox" style="--c:var(--enc)"><b>Cli_EncomendasLin</b><code>inDocumento_Numero + teContador</code></div><div class="to">↓</div><div class="tbox" style="--c:var(--enc)"><b>Cli_EncomendasCab</b><code>inDocumento_Numero + teContador</code></div></div><p class="mono">FK_Pdc_EncomendasLin_Cab</p></div>
+    <div class="rel-card"><div class="rel"><div class="tbox" style="--c:var(--gar)"><b>Cli_garantia_veiculo</b><code>inid + Innumero_garantia</code></div><div class="to">↓</div><div class="tbox" style="--c:var(--gar)"><b>Cli_Garantias</b><code>inid + innumero_garantia</code></div></div><p class="mono">FK_Cli_garantia_veiculo_Garantias</p></div>
+  </div>
+  <p style="font-size:13px;color:var(--muted)">DELETE/UPDATE: NO_ACTION. Numa FK composta, componentes NULL não garantem que o pai exista.</p>
+
+  <h3 style="font-size:16px;margin:22px 0 10px">② Ligações calculadas pelos importadores</h3>
+  <div class="grid2" id="impl"></div>
+
+  <h3 style="font-size:16px;margin:22px 0 10px">③ Relações de domínio (por código, não verificadas nos dados)</h3>
+  <div class="card scroll" style="padding:6px 10px">
+    <table>
+      <thead><tr><th>De</th><th>Para</th><th>Campos</th><th>Atenção</th></tr></thead>
+      <tbody id="dom"></tbody>
+    </table>
+  </div>
+  <div class="callout warn"><div>Estas listas não provam que todos os registos tenham correspondência: não foram contados órfãos. Campos com nomes parecidos ou IDs com o mesmo valor não são, por si só, uma relação.</div></div>
+</section>
+
+<!-- 06 DICIONARIO -->
+<section id="dicionario">
+  <div class="sec-head"><span class="num">06</span><h2>Tabelas e colunas</h2></div>
+  <p class="lead">As 32 tabelas, com todas as colunas, chaves, índices e restrições. Pesquisa por tabela, coluna, tipo ou campo de origem. «Sem mapeamento» não significa que a coluna não seja usada: pode ser preenchida pela aplicação.</p>
+  <div class="dict">
+    <div class="dict-list">
+      <input id="q" type="search" placeholder="Ex.: inid_encomenda, garantia, money…" aria-label="Pesquisar tabelas e colunas">
+      <div class="count" id="qcount"></div>
+      <div id="tlist"></div>
+    </div>
+    <div id="tdetail"></div>
+  </div>
+  <div id="print-all"></div>
+</section>
+
+<!-- 07 ESTADO -->
+<section id="estado">
+  <div class="sec-head"><span class="num">07</span><h2>Marcadores e objetos auxiliares</h2></div>
+  <p class="lead">Fotografia de 28/10/2026, 11:57, não estado em tempo real. <code>ultima_inicio</code> é o ponto de partida do próximo delta.</p>
+  <div class="markers" id="markers"></div>
+  <p style="font-size:13px;color:var(--muted)">OE_DocumentoLinhaSync tem uma entrada para documentos e outra para devoluções: cada uma tem o seu próprio ponto de leitura.</p>
+
+  <div class="grid2" style="margin-top:14px">
+    <div class="card">
+      <b>Sequência <code>dbo.OE_LinhasGlobaisId</code></b>
+      <p style="font-size:13.5px;margin:6px 0 12px;color:var(--muted)">Fornece IDs comuns a Cli_EncomendasLin e Cli_Ptelin, para que <code>inid_encomenda</code> seja inequívoco quando lido com <code>inPteCar</code>.</p>
+      <div class="grid3">
+        <div class="fact"><span>Início</span>126 419</div>
+        <div class="fact"><span>Valor atual</span>129 106</div>
+        <div class="fact"><span>Tipo · ciclo</span>int · incremento 1 · sem ciclo</div>
+      </div>
+    </div>
+    <div class="card">
+      <b>2 triggers de proteção</b>
+      <p style="font-size:13.5px;margin:6px 0 8px;color:var(--muted)">Após INSERT/UPDATE, cada tabela verifica (com applock) que o ID não está a ser usado na outra. Os importadores usam IDENTITY_INSERT e lock transacional. Não existem views, procedures nem funções.</p>
+      <details><summary class="mono">TR_Cli_EncomendasLin_IdGlobal</summary><div class="body"><pre>CREATE TRIGGER [dbo].[TR_Cli_EncomendasLin_IdGlobal] ON [dbo].[Cli_EncomendasLin]
+AFTER INSERT, UPDATE AS
+BEGIN
+    SET NOCOUNT ON;
+    IF NOT EXISTS (SELECT 1 FROM inserted) RETURN;
+    DECLARE @r int;
+    EXEC @r=sys.sp_getapplock @Resource=N'oe_ids_ptelin_encomendas:dbo',
+        @LockMode='Exclusive', @LockOwner='Transaction', @LockTimeout=300000;
+    IF @r&lt;0 THROW 51001, 'Nao foi possivel validar o ID global.', 1;
+    IF EXISTS (SELECT 1 FROM inserted i JOIN [dbo].[Cli_Ptelin] o WITH (UPDLOCK,HOLDLOCK) ON o.inId=i.inId)
+        THROW 51002, 'ID ja utilizado na outra tabela: Ptelin/EncomendasLin.', 1;
+END</pre></div></details>
+      <details><summary class="mono">TR_Cli_Ptelin_IdGlobal</summary><div class="body"><pre>CREATE TRIGGER [dbo].[TR_Cli_Ptelin_IdGlobal] ON [dbo].[Cli_Ptelin]
+AFTER INSERT, UPDATE AS
+BEGIN
+    SET NOCOUNT ON;
+    IF NOT EXISTS (SELECT 1 FROM inserted) RETURN;
+    DECLARE @r int;
+    EXEC @r=sys.sp_getapplock @Resource=N'oe_ids_ptelin_encomendas:dbo',
+        @LockMode='Exclusive', @LockOwner='Transaction', @LockTimeout=300000;
+    IF @r&lt;0 THROW 51001, 'Nao foi possivel validar o ID global.', 1;
+    IF EXISTS (SELECT 1 FROM inserted i JOIN [dbo].[Cli_EncomendasLin] o WITH (UPDLOCK,HOLDLOCK) ON o.inId=i.inId)
+        THROW 51002, 'ID ja utilizado na outra tabela: Ptelin/EncomendasLin.', 1;
+END</pre></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- 08 OPERACAO -->
+<section id="operacao">
+  <div class="sec-head"><span class="num">08</span><h2>Operação e manutenção</h2></div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3 style="font-size:16px;margin-bottom:14px">Ativar os horários no servidor</h3>
+      <ol class="steps">
+        <li>Atualizar o projeto a partir de <code>asertech_sync</code>, <b>preservando o <code>.env</code></b> do servidor. Instalar <code>requirements.txt</code> se necessário. Ficheiros alterados a 28/10: <code>executar_cadeia_operacional.py</code>, <code>executar_devolucoes.py</code>, <code>executar_conta_corrente.py</code>, <code>importar_conta_corrente.py</code>, <code>conta_corrente_estado.py</code>, <code>agendar_cadeia_operacional.ps1</code>.</li>
+        <li>Validar a definição sem instalar (PowerShell como administrador):<pre>.\agendar_cadeia_operacional.ps1 -ValidateOnly</pre></li>
+        <li>Se ainda não houver marcador das devoluções na base de destino:<pre>python executar_devolucoes.py --mode full</pre></li>
+        <li>Registar a cadeia (full 02:00, incremental 08:05–22:05):<pre>.\agendar_cadeia_operacional.ps1 -Force</pre><span style="font-size:13px;color:var(--muted)">Não é só leitura: verifica ligações e colunas e prepara os IDs comuns.</span></li>
+        <li>Confirmar o que ficou instalado:<pre>Get-ScheduledTask -TaskName 'OE Cadeia Operacional*' |
+    Select-Object TaskName, State, Triggers
+Get-ScheduledTask -TaskName 'OE Cadeia Operacional*' |
+    Get-ScheduledTaskInfo</pre></li>
+      </ol>
+      <p style="font-size:13px;color:var(--muted);margin:0">A primeira conta corrente sem marcador faz full automaticamente; os restantes incrementais precisam da sua carga inicial.</p>
+    </div>
+    <div>
+      <div class="card">
+        <h3 style="font-size:16px;margin-bottom:8px">Executar e diagnosticar</h3>
+<pre><span class="c"># Cadeia completa</span>
+python executar_cadeia_operacional.py --mode full
+python executar_cadeia_operacional.py --mode incremental
+<span class="c"># Etapas isoladas</span>
+python executar_devolucoes.py --mode incremental
+python executar_conta_corrente.py --mode incremental
+python executar_conta_corrente.py --mode incremental --preview
+python importar_conta_corrente.py --check
+<span class="c"># Auxiliares</span>
+python executar_full_auxiliares.py --tipo catalogos
+python executar_full_auxiliares.py --tipo localizacoes</pre>
+        <p style="font-size:13px;color:var(--muted);margin:6px 0 0">Use os <code>executar_*</code>: chamar <code>importar_*.py</code> diretamente não deixa log no monitor. Alguns importadores preparam estrutura mesmo com <code>--check</code>/<code>--preview</code>.</p>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3 style="font-size:16px;margin-bottom:8px">Logs e monitor</h3>
+<pre>.\iniciar_monitor.ps1
+<span class="c"># Abrir http://127.0.0.1:8088</span></pre>
+        <p style="font-size:13px;margin:6px 0 0"><code>logs/cadeia_operacional</code> mostra a ordem, os resultados e as interrupções. Há uma pasta por grupo (referencias, pvps, stocks, catalogos, localizacoes, clientes, encomendas, ptelin, documentos, devolucoes, garantias, garantia_veiculo, conta_corrente).</p>
+        <p style="font-size:13px;color:var(--muted);margin:6px 0 0">O monitor lê logs e tarefas do Windows, não as bases. Atualiza a cada 30 s (tarefas em cache 60 s). «Sem fecho» pode ser execução ativa ou interrompida; «sem logs» não é sucesso. <code>-BindAddress 0.0.0.0</code> só em rede interna de confiança (não tem login).</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-size:16px;margin:24px 0 10px">Recuperação após falha</h3>
+  <div class="dodont">
+    <div class="card"><b style="color:var(--ok)">✓ Fazer</b><ul>
+      <li>Ver primeiro o log da cadeia e depois o log da etapa que falhou.</li>
+      <li>Resolver o erro de chave, conversão, truncagem ou bloqueio antes de repetir.</li>
+      <li>Para corrigir atrasos, correr o full apropriado e verificar o resultado.</li>
+      <li>Manter ligações e credenciais só no <code>.env</code>. As tarefas S4U precisam de autenticação SQL, não Trusted Connection.</li>
+    </ul></div>
+    <div class="card"><b style="color:var(--warn)">✗ Não fazer</b><ul>
+      <li>Apagar marcadores ou renumerar IDs.</li>
+      <li>Correr às cegas <code>preparar_ids_linhas_globais.py</code>, <code>preparar_*.sql</code> ou <code>--prepare-schema</code>, porque alteram a estrutura.</li>
+      <li>Reinstalar os agendadores antigos de encomendas, Ptelin ou documentos.</li>
+      <li>Esperar que uma falha desfaça etapas anteriores, porque os commits já feitos ficam.</li>
+    </ul></div>
+  </div>
+
+  <h3 style="font-size:16px;margin:24px 0 10px">Pontos de atenção</h3>
+  <div class="attn">
+    <div><b>Clientes: PK só em inCodigo</b>O importador usa teEmpresa + inCodigo. Códigos repetidos entre empresas podem colidir na PK.</div>
+    <div><b>Cabeçalhos: número + contador</b>Não garante unicidade por ano/empresa. A reconciliação de documentos acrescenta ano, empresa e armazém.</div>
+    <div><b>inId em stocks/localizações</b>É o ID do artigo e repete-se em várias linhas. Nunca usar sozinho como chave da linha.</div>
+    <div><b>inPteCar / inid_encomenda</b>inPteCar: 1 = Ptelin, 0 = encomenda, NULL = sem origem. inid_encomenda aponta para a linha de origem e fica NULL se houver ambiguidade.</div>
+    <div><b>Conta corrente</b>Só deteta de imediato as alterações que mexem nas quatro datas do delta. O full diário cobre as restantes.</div>
+    <div><b>Cli_Pagamentos</b>Sem PK nem sincronismo neste repositório. O destino do cobro é Cli_Conta_Corrente.</div>
+    <div><b>Tarefa de garantias duplicada</b>A tarefa independente não é removida pela cadeia. Confirmar no servidor se deve continuar.</div>
+    <div><b>Mensagens antigas</b>Alguns instaladores ainda falam em 3 catálogos ou no horário semanal. Prevalece o código atual e este documento.</div>
+  </div>
+</section>
+
+<!-- 09 FONTES -->
+<section id="fontes">
+  <div class="sec-head"><span class="num">09</span><h2>Fontes, alcance e versão</h2></div>
+  <div class="grid2">
+    <div class="card" style="font-size:13.5px"><b>Estrutura</b><br>sys.tables, sys.columns, sys.types, sys.identity_columns, sys.default_constraints, sys.computed_columns, sys.indexes, sys.index_columns, sys.foreign_keys, sys.foreign_key_columns, sys.check_constraints, sys.objects, sys.sql_modules, sys.sequences e configuração da base. Estado: tabelas OE_*Sync. Não foram exportados registos comerciais nem pessoais.</div>
+    <div class="card" style="font-size:13.5px"><b>Comportamento e horários</b><br>Código local do commit <code>abe86c2</code>, consultado a 28/10/2026; horários dos ficheiros <code>agendar_*.ps1</code>. Um script existir não quer dizer que a tarefa esteja instalada no servidor. As relações de domínio estão assinaladas como não verificadas.</div>
+  </div>
+  <details><summary>Ficheiros consultados (42)</summary><div class="body" id="files" style="columns:3 220px;font-size:13px"></div></details>
+  <footer>Substitui a descrição estática de 15/10/2026. Documento autónomo: funciona offline, não altera a base nem instala tarefas. Dados operacionais são uma fotografia, não estado em tempo real.</footer>
+</section>
+</main>
+</div>
+
+<script>
+const TABELAS = [{"nome":"Art_Familias","info":{"Origem":"PUB.fam-propia","Importador":"importar_catalogos.py","Chave do sincronismo":"teEmpresa + teFamilia","Regra":"Insere/atualiza; inativa ausentes e reativa reaparecidos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","teEmpresa","NVARCHAR(3)","Não","—","—","PK","emp"],["2","teFamilia","NVARCHAR(7)","Não","—","—","PK","fap"],["3","teDescricao","NVARCHAR(30)","Sim","—","—","—","fapdes"],["4","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Art_Familias","CLUSTERED","PK","teEmpresa, teFamilia","—","—","Ativo"]]}]},{"nome":"Art_Localizacao","info":{"Origem":"PUB.refer-ubica","Importador":"importar_localizacoes.py","Chave do sincronismo":"teEmpresa + teArmazem + teReferencia + teLocalizacao","Regra":"inId herdado do artigo; exclui referências sem artigo; inativa ausentes."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["2","teEmpresa","NVARCHAR(3)","Sim","—","—","UQ*","emp"],["3","teArmazem","NVARCHAR(3)","Sim","—","—","UQ*","alm"],["4","teReferencia","NVARCHAR(35)","Sim","—","—","UQ*","refer"],["5","teLocalizacao","NVARCHAR(20)","Sim","—","—","UQ*","ubica"],["6","nuQuantidade","REAL","Sim","—","—","—","ubican"],["7","inId","INT","Não","—","—","—","Herdado de Art_Referencias.inId"],["8","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["(heap)","HEAP","Não único","—","—","—","Ativo"],["UX_Art_Localizacao_Chave","NONCLUSTERED","UNIQUE index","teEmpresa, teArmazem, teReferencia, teLocalizacao","—","—","Ativo"],["IX_Art_Localizacao_Artigo","NONCLUSTERED","Não único","inId","—","—","Ativo"]]}]},{"nome":"Art_Marcas","info":{"Origem":"PUB.marca","Importador":"importar_catalogos.py","Chave do sincronismo":"teEmpresa + teMarca","Regra":"Insere/atualiza; inativa ausentes e reativa reaparecidos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","teEmpresa","NVARCHAR(3)","Não","—","—","PK","emp"],["2","teMarca","NVARCHAR(3)","Não","—","—","PK","mar"],["3","teMarca_Descricao","NVARCHAR(30)","Sim","—","—","—","mardes"],["4","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Art_Marcas","CLUSTERED","PK","teEmpresa, teMarca","—","—","Ativo"]]}]},{"nome":"Art_PVP","info":{"Origem":"PUB.refer-tarifa","Importador":"importar_pvps.py","Chave do sincronismo":"teEmpresa + teReferencia + teTarifa","Regra":"Full: inativa ausentes; incremental: preserva ausentes."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teEmpresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","teReferencia","NVARCHAR(35)","Sim","—","—","—","refer"],["4","teTarifa","NVARCHAR(3)","Sim","—","—","—","tar"],["5","moPVP","MONEY","Sim","—","—","—","pvp"],["6","dhData_Alteracao","DATETIME","Sim","—","—","—","fecam"],["7","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Art_PVP","CLUSTERED","PK","inId","—","—","Ativo"]]}]},{"nome":"Art_Referencias","info":{"Origem":"PUB.referencia","Importador":"importar_referencias.py","Chave do sincronismo":"teReferencia","Regra":"Full: inativa ausentes; incremental: insere/atualiza/reativa."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teReferencia","NVARCHAR(35)","Sim","—","—","—","refer"],["3","teCatalogo","NVARCHAR(20)","Sim","—","—","—","catal"],["4","teDescricao","NVARCHAR(55)","Sim","—","—","—","artde1"],["5","dhData_Criacao","DATETIME","Sim","—","—","—","fecal"],["6","dhData_Substituicao","DATETIME","Sim","—","—","—","fecsu"],["7","teFamilia","NVARCHAR(7)","Sim","—","—","—","fap"],["8","teSeccao","NVARCHAR(3)","Sim","—","—","—","fam"],["9","teMarca","NVARCHAR(3)","Sim","—","—","—","mar"],["10","nuLote_Venda","REAL","Sim","—","—","—","unven"],["11","nuLote_Compra","NVARCHAR(3)","Sim","—","—","—","unmec"],["12","nuMinimo_Venda","REAL","Sim","—","—","—","unmin"],["13","teObservacoes","NVARCHAR(250)","Sim","—","—","—","obs"],["14","nuVolume","REAL","Sim","—","—","—","volumen"],["15","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Art_Referencias","CLUSTERED","PK","inId","—","—","Ativo"]]}]},{"nome":"Art_Seccao","info":{"Origem":"PUB.seccion-alm","Importador":"importar_catalogos.py","Chave do sincronismo":"teEmpresa + teSeccao","Regra":"Insere/atualiza; inativa ausentes e reativa reaparecidos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","teEmpresa","NVARCHAR(3)","Não","—","—","PK","emp"],["2","teSeccao","NVARCHAR(3)","Não","—","—","PK","fam"],["3","teDescricao","NVARCHAR(30)","Sim","—","—","—","famdes"],["4","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Art_Seccao","CLUSTERED","PK","teEmpresa, teSeccao","—","—","Ativo"]]}]},{"nome":"Art_Stocks","info":{"Origem":"PUB.refer-alm","Importador":"importar_stocks.py","Chave do sincronismo":"teEmpresa + teArmazem + teArmazem_Deposito + teReferencia","Regra":"inId herdado do artigo. Exclui referências sem artigo; full inativa ausentes."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["2","teEmpresa","NVARCHAR(3)","Sim","—","—","UQ*","emp"],["3","teArmazem","NVARCHAR(3)","Sim","—","—","UQ*","alm"],["4","teArmazem_Deposito","NVARCHAR(1)","Sim","—","—","UQ*","almdep"],["5","teReferencia","NVARCHAR(35)","Sim","—","—","UQ*","refer"],["6","nuQuantidade","REAL","Sim","—","—","—","can"],["7","nuQuantidade_Pedida","REAL","Sim","—","—","—","canped"],["8","nuPteLoc","REAL","Sim","—","—","—","canpteubi"],["9","nuCMM","REAL","Sim","—","—","—","cmm"],["10","nuPCPM","REAL","Sim","—","—","—","pcpm"],["11","teCategoria_Stock","NVARCHAR(1)","Sim","—","—","—","cat"],["12","inReaprovisionamento","INT","Sim","—","—","—","reapr"],["13","incodigo_Reaprovisionamento","INT","Sim","—","—","—","corea"],["14","teABC_Vendas","NVARCHAR(1)","Sim","—","—","—","abcven"],["15","dhData_Modificacao","DATETIME","Sim","—","—","—","data_modificacao"],["16","inMeses_Minimo","INT","Sim","—","—","—","mesmialm"],["17","inMeses_Maximo","INT","Sim","—","—","—","mesmaalm"],["18","nuQuantidade_Minima","REAL","Sim","—","—","—","ctamialm"],["19","nuQuantidade_Maxima","REAL","Sim","—","—","—","canmaalm"],["20","boAtivo","BIT","Não","—","((1))","—","Estado do sincronismo: presente=1; ausente no full=0"],["21","inId","INT","Não","—","—","—","Herdado de Art_Referencias.inId"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["(heap)","HEAP","Não único","—","—","—","Ativo"],["UX_Art_Stocks_Chave","NONCLUSTERED","UNIQUE index","teEmpresa, teArmazem, teArmazem_Deposito, teReferencia","—","—","Ativo"],["IX_Art_Stocks_Artigo","NONCLUSTERED","Não único","inId","—","—","Ativo"]]}]},{"nome":"Cli_Conta_Corrente","info":{"Origem":"PUB.cobro","Importador":"importar_conta_corrente.py","Chave do sincronismo":"teempresa + teSerie + indocumento_numero + innumero_vencimento","Regra":"Full inicial automático sem marcador; preserva ausentes."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","teSerie","NVARCHAR(3)","Sim","—","—","—","sef"],["4","indocumento_numero","INT","Sim","—","—","—","doc"],["5","innumero_vencimento","INT","Sim","—","—","—","nuvto"],["6","dhdata_vencimento","DATETIME","Sim","—","—","—","vto"],["7","movalor_nominal","MONEY","Sim","—","—","—","impno"],["8","movalor_pago","MONEY","Sim","—","—","—","imppa"],["9","inbanco","INT","Sim","—","—","—","banco"],["10","dhdata_cobranca","DATETIME","Sim","—","—","—","fecob"],["11","temodo_pagamento","NVARCHAR(3)","Sim","—","—","—","pgf"],["12","dhdata_documento","DATETIME","Sim","—","—","—","fedoc"],["13","movalor_fracionado","MONEY","Sim","—","—","—","impdi"],["14","movalor_fracionado_pago","MONEY","Sim","—","—","—","impdipa"],["15","tecobranca","NVARCHAR(1)","Sim","—","—","—","cobban"],["16","tesituacao_documento","NVARCHAR(3)","Sim","—","—","—","situa"],["17","dhdata_ultima_situacao","DATETIME","Sim","—","—","—","fesit"],["18","teestado_documento","NVARCHAR(3)","Sim","—","—","—","estad"],["19","dhdata_ultimo_estado","DATETIME","Sim","—","—","—","feest"],["20","tecontador","NVARCHAR(10)","Sim","—","—","—","cont"],["21","teobservacoes","NVARCHAR(250)","Sim","—","—","—","obs"],["22","inano","INT","Sim","—","—","—","ejer"],["23","invendedor","INT","Sim","—","—","—","venFac"],["24","incliente_agrupado","INT","Sim","—","—","—","agrcli"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_cli_conta_corrente","CLUSTERED","PK","inid","—","—","Ativo"]]}]},{"nome":"Cli_DevolucoesLin","info":{"Origem":"PUB.historico-alm; tmv = EFC","Importador":"importar_devolucoes_linhas.py","Chave do sincronismo":"inDocumento_Numero + teContador + inLinha_Numero + teReferencia + dhData_Movimento","Regra":"Marcador próprio por destino; copia ligações dos documentos. Não elimina por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teEmpresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","teArmazem","NVARCHAR(3)","Sim","—","—","—","alm"],["4","teArmazem_Deposito","NVARCHAR(1)","Sim","—","—","—","almdep"],["5","dhData_Movimento","DATETIME","Sim","—","—","—","femov + hora"],["6","teTipo_Movimento","NVARCHAR(3)","Sim","—","—","—","tmv"],["7","teContador","NVARCHAR(10)","Não","—","—","—","cont"],["8","inDocumento_Numero","INT","Não","—","—","—","docum"],["9","inLinha_Numero","INT","Sim","—","—","—","linea"],["10","inEntidade","INT","Sim","—","—","—","clprv"],["11","teReferencia","NVARCHAR(35)","Sim","—","—","—","refer"],["12","teDescricao","NVARCHAR(80)","Sim","—","—","—","descri"],["13","teMarca","NVARCHAR(7)","Sim","—","—","—","mar"],["14","teFamilia","NVARCHAR(10)","Sim","—","—","—","fap"],["15","teSeccao","NVARCHAR(3)","Sim","—","—","—","fam"],["16","nuQuantidade","REAL","Sim","—","—","—","canmov"],["17","moPCPM","MONEY","Sim","—","—","—","pcpm"],["18","moPreco_Unitario_Bruto","MONEY","Sim","—","—","—","pvpco"],["19","moPreco_Unitario_Descontado","MONEY","Sim","—","—","—","pvpne / canmov; Decimal, ROUND_HALF_UP à escala SQL"],["20","nuPercentagem_IVA","REAL","Sim","—","—","—","ivapor"],["21","teLocalizacao","NVARCHAR(15)","Sim","—","—","—","ubica"],["22","teOperador","NVARCHAR(12)","Sim","—","—","—","almnro"],["23","inVendedor","INT","Sim","—","—","—","ven"],["24","teAlbaran","NVARCHAR(20)","Sim","—","—","—","nualpr"],["25","inPteCar","INT","Sim","—","—","—","Reconciliação; nas devoluções, copiado da linha de documento"],["26","inid_encomenda","INT","Sim","—","—","—","Reconciliação; nas devoluções, copiado da linha de documento"],["27","inid_cab","INT","Sim","—","—","—","Ligação ao cabeçalho pelo importador/reconciliação"],["28","inmotivo_abono","INT","Sim","—","—","—","motabo"],["29","inalbaran_ano","INT","Sim","—","—","—","albejr"],["30","tealbaran_contador","NVARCHAR(20)","Sim","—","—","—","albcont"],["31","inalbaran_numero","INT","Sim","—","—","—","albnum"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Cli_DevolucoesLin","CLUSTERED","PK","inId","—","—","Ativo"],["IX_Cli_DevolucoesLin_Documento","NONCLUSTERED","Não único","teContador, inDocumento_Numero","—","—","Ativo"],["IX_Cli_DevolucoesLin_Encomenda","NONCLUSTERED","Não único","inid_encomenda","—","—","Ativo"]]},{"titulo":"Restrições CHECK","cab":["Nome","Expressão","Desativada","Não validada"],"linhas":[["CK_Cli_DevolucoesLin_EFC","([teTipo_Movimento] IS NOT NULL AND [teTipo_Movimento]=N'EFC')","False","False"]]}]},{"nome":"Cli_DocumentosCab","info":{"Origem":"PUB.fac-alm-c1","Importador":"importar_documentos.py","Chave do sincronismo":"inDocumento_Numero + teContador","Regra":"Insere/atualiza; remove documentos anulados e respetivas linhas."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teEmpresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","inAno","INT","Sim","—","—","—","ejr"],["4","teSerie","NVARCHAR(3)","Sim","—","—","—","sef"],["5","teContador","NVARCHAR(10)","Sim","—","—","UQ*","cont"],["6","inDocumento_Numero","INT","Sim","—","—","UQ*","docum"],["8","dhData_Documento","DATETIME","Sim","—","—","—","fedoc + hora"],["9","inCliente","INT","Sim","—","—","—","cli"],["10","inVendedor","INT","Sim","—","—","—","ven"],["11","teModo_Entrega","NVARCHAR(1)","Sim","—","—","—","moe"],["12","moTotal_Desconto","MONEY","Sim","—","—","—","totldto"],["13","moTotal_Bruto","MONEY","Sim","—","—","—","totimp"],["14","moTotal_Liquido","MONEY","Sim","—","—","—","totlbru"],["15","teArmazem","NVARCHAR(3)","Sim","—","—","—","alm"],["18","dhData_Anulacao","DATETIME2(3)","Sim","—","—","—","fillerUPD"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Pdc_DocumentosCab","CLUSTERED","PK","inId","—","—","Ativo"],["UQ_Pdc_DocumentosCab_Documento_Contador","NONCLUSTERED","UNIQUE constraint","inDocumento_Numero, teContador","—","—","Ativo"]]}]},{"nome":"Cli_DocumentosLin","info":{"Origem":"PUB.historico-alm; tmv IN (SFC,EFC)","Importador":"importar_documentos_linhas.py","Chave do sincronismo":"inDocumento_Numero + teContador + inLinha_Numero + teReferencia + dhData_Movimento","Regra":"Insere/atualiza, liga ao cabeçalho, elimina anulados; reconciliação posterior."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teEmpresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","teArmazem","NVARCHAR(3)","Sim","—","—","—","alm"],["4","teArmazem_Deposito","NVARCHAR(1)","Sim","—","—","—","almdep"],["5","dhData_Movimento","DATETIME","Sim","—","—","—","femov + hora"],["6","teTipo_Movimento","NVARCHAR(3)","Sim","—","—","—","tmv"],["7","teContador","NVARCHAR(10)","Não","—","—","—","cont"],["8","inDocumento_Numero","INT","Não","—","—","—","docum"],["9","inLinha_Numero","INT","Sim","—","—","—","linea"],["10","inEntidade","INT","Sim","—","—","—","clprv"],["11","teReferencia","NVARCHAR(35)","Sim","—","—","—","refer"],["12","teDescricao","NVARCHAR(80)","Sim","—","—","—","descri"],["13","teMarca","NVARCHAR(7)","Sim","—","—","—","mar"],["14","teFamilia","NVARCHAR(10)","Sim","—","—","—","fap"],["15","teSeccao","NVARCHAR(3)","Sim","—","—","—","fam"],["16","nuQuantidade","REAL","Sim","—","—","—","canmov"],["17","moPCPM","MONEY","Sim","—","—","—","pcpm"],["18","moPreco_Unitario_Bruto","MONEY","Sim","—","—","—","pvpco"],["19","moPreco_Unitario_Descontado","MONEY","Sim","—","—","—","pvpne / canmov; Decimal, ROUND_HALF_UP à escala SQL"],["20","nuPercentagem_IVA","REAL","Sim","—","—","—","ivapor"],["21","teLocalizacao","NVARCHAR(15)","Sim","—","—","—","ubica"],["22","teOperador","NVARCHAR(12)","Sim","—","—","—","almnro"],["23","inVendedor","INT","Sim","—","—","—","ven"],["24","teAlbaran","NVARCHAR(20)","Sim","—","—","—","nualpr"],["25","inPteCar","INT","Sim","—","—","—","Reconciliação; nas devoluções, copiado da linha de documento"],["26","inid_encomenda","INT","Sim","—","—","—","Reconciliação; nas devoluções, copiado da linha de documento"],["28","inid_cab","INT","Sim","—","—","—","Ligação ao cabeçalho pelo importador/reconciliação"],["29","inmotivo_abono","INT","Sim","—","—","—","motabo"],["30","inalbaran_ano","INT","Sim","—","—","—","albejr"],["31","tealbaran_contador","NVARCHAR(20)","Sim","—","—","—","albcont"],["32","inalbaran_numero","INT","Sim","—","—","—","albnum"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Pdc_DocumentosLin","CLUSTERED","PK","inId","—","—","Ativo"],["IX_Cli_DocumentosLin_Encomenda","NONCLUSTERED","Não único","inid_encomenda","—","—","Ativo"],["IX_Cli_DocumentosLin_PteCarMatch","NONCLUSTERED","Não único","teContador, inDocumento_Numero","—","—","Ativo"]]}]},{"nome":"Cli_EncomendasCab","info":{"Origem":"PUB.pcli-alm-c1","Importador":"importar_encomendas.py","Chave do sincronismo":"inDocumento_Numero + teContador","Regra":"Insere/atualiza; elimina documentos confirmados em reporte-lin."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","inDocumento_Numero","INT","Sim","—","—","UQ*","docum"],["3","inCliente","INT","Sim","—","—","—","cli"],["4","teContador","NVARCHAR(10)","Sim","—","—","UQ*","cont"],["5","inAno","INT","Sim","—","—","—","ejr"],["6","dhData_Encomenda","DATETIME","Sim","—","—","—","fedoc + hora"],["7","inano_fecho","INT","Sim","—","—","—","albaejer"],["8","tefecho_tipo","NVARCHAR(10)","Sim","—","—","—","albacont"],["9","inDocumento_Fecho","INT","Sim","—","—","—","albadocum"],["11","inEstado","INT","Sim","—","—","—","estado"],["12","inVendedor","INT","Sim","—","—","—","ven"],["13","moPreco_Total","MONEY","Sim","—","—","—","totlbru"],["14","inTipo_Cliente","INT","Sim","—","—","—","tcl"],["15","dhData_Modificacao","DATETIME","Sim","—","—","—","fecmod + hormod"],["16","teOrigem","NVARCHAR(3)","Sim","—","—","—","usri2i vazio/NULL → ISI; caso contrário I2I"],["17","teEmpresa","NVARCHAR(3)","Sim","—","—","—","emp"],["18","teSerie","NVARCHAR(3)","Sim","—","—","—","sef"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Pdc_EncomendasCab","CLUSTERED","PK","inId","—","—","Ativo"],["UQ_Pdc_EncomendasCab_Documento_Contador","NONCLUSTERED","UNIQUE constraint","inDocumento_Numero, teContador","—","—","Ativo"],["IX_Cli_EncomendasCab_PteCarMatch","NONCLUSTERED","Não único","tefecho_tipo, inDocumento_Fecho","—","—","Ativo"],["IX_Cli_EncomendasCab_DocKey","NONCLUSTERED","Não único","teContador, inDocumento_Numero","—","—","Ativo"]]},{"titulo":"Relações FK de entrada/saída","cab":["Constraint","Filha","Pai","DELETE / UPDATE","Estado"],"linhas":[["FK_Cli_EncomendasLin_Cab_ID","Cli_EncomendasLin\ninId_Cab","Cli_EncomendasCab\ninId","NO_ACTION / NO_ACTION","Ativa; validada"],["FK_Pdc_EncomendasLin_Cab","Cli_EncomendasLin\ninDocumento_Numero + teContador","Cli_EncomendasCab\ninDocumento_Numero + teContador","NO_ACTION / NO_ACTION","Ativa; validada"]]}]},{"nome":"Cli_EncomendasLin","info":{"Origem":"PUB.pcli-alm-lin","Importador":"importar_encomendas_linhas.py","Chave do sincronismo":"inDocumento_Numero + teContador + inLinha_Numero","Regra":"Liga ao cabeçalho e usa sequência global de IDs; eliminações confirmadas."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","OE_LinhasGlobaisId via IDENTITY_INSERT"],["2","inDocumento_Numero","INT","Sim","—","—","FK","docum"],["3","inCliente","INT","Não","—","—","—","cli"],["4","moPreco_Unitario","MONEY","Sim","—","—","—","pvp1"],["5","moPreco_Total","MONEY","Sim","—","—","—","pvp1*canser"],["6","teEmpresa","NVARCHAR(3)","Sim","—","—","—","emp"],["7","teArmazem","NVARCHAR(3)","Sim","—","—","—","alm"],["8","inLinha_Numero","INT","Sim","—","—","—","linea"],["9","teContador","NVARCHAR(10)","Sim","—","—","FK","cont"],["10","nuQuantidade_Pedida","REAL","Sim","—","—","—","canped"],["11","nuQuantidade_Extraida","REAL","Sim","—","—","—","canext"],["12","dhData_Extracao","DATETIME","Sim","—","—","—","fechaext+horaext"],["13","teEncomenda_Tipo","NVARCHAR(3)","Sim","—","—","—","constante RES"],["14","teOperador","NVARCHAR(24)","Sim","—","—","—","usualta"],["15","teReferencia","NVARCHAR(20)","Sim","—","—","—","refer"],["16","teDescricao","NVARCHAR(55)","Sim","—","—","—","artde1"],["17","nuQuantidade","REAL","Sim","—","—","—","canser"],["18","teMarca","NVARCHAR(3)","Sim","—","—","—","mar"],["19","teFamilia","NVARCHAR(14)","Sim","—","—","—","fap"],["20","teSeccao","NVARCHAR(3)","Sim","—","—","—","fam"],["21","teLocalizacao","NVARCHAR(16)","Sim","—","—","—","ubica"],["22","inEstado","INT","Sim","—","—","—","estado"],["23","moPCPM","MONEY","Sim","—","—","—","pcpm"],["24","teOperador_extracao","NVARCHAR(4)","Sim","—","—","—","usuext"],["25","inId_Cab","INT","Não","—","—","FK","Ligação ao cabeçalho pelo importador/reconciliação"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Pdc_EncomendasLin","CLUSTERED","PK","inId","—","—","Ativo"],["IX_Cli_EncomendasLin_Reconciliacao","NONCLUSTERED","Não único","inId_Cab, teReferencia","teDescricao","—","Ativo"]]},{"titulo":"Relações FK de entrada/saída","cab":["Constraint","Filha","Pai","DELETE / UPDATE","Estado"],"linhas":[["FK_Cli_EncomendasLin_Cab_ID","Cli_EncomendasLin\ninId_Cab","Cli_EncomendasCab\ninId","NO_ACTION / NO_ACTION","Ativa; validada"],["FK_Pdc_EncomendasLin_Cab","Cli_EncomendasLin\ninDocumento_Numero + teContador","Cli_EncomendasCab\ninDocumento_Numero + teContador","NO_ACTION / NO_ACTION","Ativa; validada"]]}]},{"nome":"Cli_garantia_veiculo","info":{"Origem":"PUB.garantiaVehic","Importador":"importar_garantia_veiculo.py","Chave do sincronismo":"teempresa + Innumero_garantia","Regra":"inid herdado da garantia; pai em falta/duplicado aborta; não elimina ausentes."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","—","—","PK\nFK","Herdado de Cli_Garantias.inid"],["2","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","Innumero_garantia","INT","Não","—","—","FK","gar"],["4","techassi","NVARCHAR(34)","Sim","—","—","—","chasis"],["5","tematricula","NVARCHAR(15)","Sim","—","—","—","mat"],["6","temarca","NVARCHAR(60)","Sim","—","—","—","marVeh"],["7","temodelo","NVARCHAR(60)","Sim","—","—","—","modVeh"],["8","temotor","NVARCHAR(20)","Sim","—","—","—","motVeh"],["9","teproprietario","NVARCHAR(30)","Sim","—","—","—","propietario"],["10","inano","INT","Sim","—","—","—","ano"],["11","incilindrada","INT","Sim","—","—","—","cilindrada"],["12","tePotencia","NVARCHAR(10)","Sim","—","—","—","KW-CV"],["13","inid_viatura","INT","Sim","—","—","—","idVehTD"],["14","nukm_instalacao","REAL","Sim","—","—","—","kmInst"],["15","nukm_avaria","REAL","Sim","—","—","—","kmFalla"],["16","dhdata_compra","DATETIME2(7)","Sim","—","—","—","fecCompra"],["17","dhdatainstalacao","DATETIME","Sim","—","—","—","fecInst"],["18","dhdata_avaria","DATETIME","Sim","—","—","—","fecFalla"],["19","tedescricao_avaria","NVARCHAR(400)","Sim","—","—","—","descPieza"],["20","temotivo_avaria","NVARCHAR(800)","Sim","—","—","—","motFallo"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Cli_garantia_veiculo","CLUSTERED","PK","inid","—","—","Ativo"]]},{"titulo":"Relações FK de entrada/saída","cab":["Constraint","Filha","Pai","DELETE / UPDATE","Estado"],"linhas":[["FK_Cli_garantia_veiculo_Garantias","Cli_garantia_veiculo\ninid + Innumero_garantia","Cli_Garantias\ninid + innumero_garantia","NO_ACTION / NO_ACTION","Ativa; validada"]]}]},{"nome":"Cli_Garantias","info":{"Origem":"PUB.garantia","Importador":"importar_garantias.py","Chave do sincronismo":"teempresa + innumero_garantia","Regra":"Insere/atualiza diferenças; não elimina por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK\nUQ*","Gerado pelo SQL Server"],["2","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","tearmazem","NVARCHAR(3)","Sim","—","—","—","alm"],["4","innumero_garantia","INT","Sim","—","—","UQ*","gar"],["5","dhdata_criacao","DATETIME","Sim","—","—","—","fecalt"],["6","tereferencia","NVARCHAR(20)","Sim","—","—","—","refer"],["7","nuquantidade","REAL","Sim","—","—","—","ctd"],["8","tevendedor_armazem","NVARCHAR(12)","Sim","—","—","—","almnro"],["9","tearmazem_localizado","NVARCHAR(3)","Sim","—","—","—","almubi"],["10","incliente","INT","Sim","—","—","—","cli"],["11","tevenda_tipo","NVARCHAR(1)","Sim","—","—","—","intipo"],["12","infatura_ano","INT","Sim","—","—","—","inejr"],["13","tefatura_serie","NVARCHAR(3)","Sim","—","—","—","insef"],["14","tefatura_contador","NVARCHAR(10)","Sim","—","—","—","incont"],["15","infatura_numero","INT","Sim","—","—","—","indocum"],["16","infatura_linha","INT","Sim","—","—","—","inlinea"],["17","mopreco_venda","MONEY","Sim","—","—","—","pvp"],["18","mopreco_custo","MONEY","Sim","—","—","—","pcpm"],["19","teobservacoes","NVARCHAR(250)","Sim","—","—","—","obs"],["20","teestado","NVARCHAR(2)","Sim","—","—","—","estsus"],["21","dhdata_estado","DATETIME","Sim","—","—","—","estsusfec"],["22","tevendedor_estado","NVARCHAR(12)","Sim","—","—","—","almsus"],["23","tecomentario_primeiro","NVARCHAR(250)","Sim","—","—","—","com1"],["24","tecomentario_segundo","NVARCHAR(250)","Sim","—","—","—","com2"],["25","tecomentario_terceiro","NVARCHAR(250)","Sim","—","—","—","com3"],["26","tecomentario_quarto","NVARCHAR(250)","Sim","—","—","—","com4"],["27","insubstituido_c_fatura","INT","Sim","—","—","—","scest"],["28","dhdata_substituicao_c_fatura","DATETIME","Sim","—","—","—","scfec"],["29","insubtituido_s_fatura","INT","Sim","—","—","—","ssest"],["30","dhdata_substituicao_s_fatura","DATETIME","Sim","—","—","—","ssfec"],["31","increditado","INT","Sim","—","—","—","saest"],["32","dhdata_credito","DATETIME","Sim","—","—","—","safec"],["33","inano_credito","INT","Sim","—","—","—","saejr"],["34","teserie_credito","NVARCHAR(3)","Sim","—","—","—","sasef"],["35","tecontador_credito","NVARCHAR(10)","Sim","—","—","—","sacont"],["36","incredito_numero","INT","Sim","—","—","—","sadocum"],["37","incredito_linha","INT","Sim","—","—","—","salinea"],["38","incredito_fornecedor","INT","Sim","—","—","—","prv"],["39","teestado_tratamento","NVARCHAR(1)","Sim","—","—","—","esttra"],["40","dhdata_tratamento","DATETIME","Sim","—","—","—","esttrafec"],["41","dhdata_resolucao","DATETIME","Sim","—","—","—","resfec"],["42","tetipo_resolucao","NVARCHAR(1)","Sim","—","—","—","resfor"],["43","tearmazem_envio_fornecedor","NVARCHAR(3)","Sim","—","—","—","evalm"],["44","inano_envio_fornecedor","INT","Sim","—","—","—","evejer"],["45","tecontador_envio_fornecedor","NVARCHAR(10)","Sim","—","—","—","evcont"],["46","indocumento_envio_fornecedor","INT","Sim","—","—","—","evdocum"],["47","inlinha_envio_fornecedor","INT","Sim","—","—","—","evlinea"],["48","dhdata_envio_fornecedor","DATETIME","Sim","—","—","—","evfec"],["49","dhdata_entrada","DATETIME","Sim","—","—","—","enfec"],["50","tearmazem_entrada","NVARCHAR(3)","Sim","—","—","—","enalm"],["51","inano_armazem_entrada","INT","Sim","—","—","—","eejralb"],["52","indocumento_armazem_entrada","NVARCHAR(50)","Sim","—","—","—","enumalb"],["53","nuquantidade_entrada","REAL","Sim","—","—","—","enctd"],["54","mopreco_entrada","MONEY","Sim","—","—","—","enpvp"],["55","infechado","INT","Sim","—","—","—","cerrada"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Cli_Garantias","CLUSTERED","PK","inid","—","—","Ativo"],["UQ_Cli_Garantias_Id_Numero","NONCLUSTERED","UNIQUE constraint","inid, innumero_garantia","—","—","Ativo"]]},{"titulo":"Relações FK de entrada/saída","cab":["Constraint","Filha","Pai","DELETE / UPDATE","Estado"],"linhas":[["FK_Cli_garantia_veiculo_Garantias","Cli_garantia_veiculo\ninid + Innumero_garantia","Cli_Garantias\ninid + innumero_garantia","NO_ACTION / NO_ACTION","Ativa; validada"]]}]},{"nome":"Cli_Modo_Entrega","info":{"Origem":"PUB.modo-entrega","Importador":"importar_catalogos.py","Chave do sincronismo":"teempresa + temodo_entrega","Regra":"Insere/atualiza; não elimina nem inativa por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","temodo_entrega","NVARCHAR(1)","Sim","—","—","—","moe"],["4","tedescricao","NVARCHAR(30)","Sim","—","—","—","moedes"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Cli_Modo_Entrega","CLUSTERED","PK","inid","—","—","Ativo"]]}]},{"nome":"Cli_Modo_Pagamento","info":{"Origem":"PUB.pago-modo","Importador":"importar_catalogos.py","Chave do sincronismo":"teempresa + temodo_pagamento","Regra":"Insere/atualiza; não elimina nem inativa por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","temodo_pagamento","NVARCHAR(3)","Sim","—","—","—","pgm"],["4","tedescricao","NVARCHAR(30)","Sim","—","—","—","pgmdes"],["5","teforma_pagamento","NVARCHAR(3)","Sim","—","—","—","pgf"],["6","innumero_vencimetos","INT","Sim","—","—","—","nrovto"],["7","indias_pagamento","INT","Sim","—","—","—","pgdv"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Cli_modo_pagamento","CLUSTERED","PK","inid","—","—","Ativo"]]}]},{"nome":"Cli_Pagamentos","info":{"Regra":"Tabela existente sem importador identificado neste repositório."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","teEmpresa","NVARCHAR(3)","Sim","—","—","—","Sem mapeamento identificado"],["2","teSerie","NVARCHAR(3)","Sim","—","—","—","Sem mapeamento identificado"],["3","inDocumento_Numero","INT","Sim","—","—","—","Sem mapeamento identificado"],["4","inEstado","INT","Sim","—","—","—","Sem mapeamento identificado"],["5","inCliente","INT","Sim","—","—","—","Sem mapeamento identificado"],["6","dhData_Vencimento","DATETIME","Sim","—","—","—","Sem mapeamento identificado"],["7","moValor_Nominal","MONEY","Sim","—","—","—","Sem mapeamento identificado"],["8","moValor_Pago","MONEY","Sim","—","—","—","Sem mapeamento identificado"],["9","dhData_Cobranca","DATETIME","Sim","—","—","—","Sem mapeamento identificado"],["10","inEstado_Documento","INT","Sim","—","—","—","Sem mapeamento identificado"],["11","teModo_Pagamento","NVARCHAR(3)","Sim","—","—","—","Sem mapeamento identificado"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["(heap)","HEAP","Não único","—","—","—","Ativo"]]}]},{"nome":"Cli_Ptelin","info":{"Origem":"PUB.medcatpteser","Importador":"importar_ptelin.py","Chave do sincronismo":"teEmpresa + teArmazem + dhdata_criacao + teReferencia + teAlbaran","Regra":"Insere/atualiza; IDs da sequência global. Descobre fecho em cargadoen."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inId","INT","Não","IDENTITY(1,1)","—","PK","OE_LinhasGlobaisId via IDENTITY_INSERT"],["2","teArmazem","NVARCHAR(3)","Sim","—","—","UQ*","alm"],["3","teEmpresa","NVARCHAR(3)","Sim","—","—","UQ*","emp"],["4","dhdata_criacao","DATETIME","Sim","—","—","UQ*","fecha + hora (segundos)"],["5","teReferencia","NVARCHAR(35)","Sim","—","—","UQ*","refer"],["6","teDescricao","NVARCHAR(80)","Sim","—","—","—","descri"],["7","nuQuantidade","REAL","Sim","—","—","—","ctd"],["8","teOperador","NVARCHAR(10)","Sim","—","—","—","usuario"],["9","moPreco_Compra","MONEY","Sim","—","—","—","pvpco"],["10","nuDesconto_compra","REAL","Sim","—","—","—","dto"],["11","moPreco_venda","MONEY","Sim","—","—","—","pvp"],["12","nuDesconto_venda","REAL","Sim","—","—","—","dtvdto"],["13","inAno","INT","Sim","—","—","—","ejralb"],["14","inCliente","INT","Sim","—","—","—","cli"],["15","inForneceor","INT","Sim","—","—","—","prv"],["16","teAlbaran","NVARCHAR(20)","Sim","—","—","UQ*","numalb"],["17","teMarca","NVARCHAR(3)","Sim","—","—","—","mar"],["18","teFamilia","NVARCHAR(7)","Sim","—","—","—","fap"],["19","teSeccao","NVARCHAR(6)","Sim","—","—","—","fam"],["20","tefecho_tipo","NVARCHAR(6)","Sim","—","—","—","cargadoen: componente 3, separador CHAR(15)"],["21","infecho_numero","INT","Sim","—","—","—","cargadoen: componente 4"],["22","inano_fecho","INT","Sim","—","—","—","cargadoen: componente 1"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_cli_ptelin","CLUSTERED","PK","inId","—","—","Ativo"],["UX_Cli_Ptelin_OE_Key","NONCLUSTERED","UNIQUE index","teEmpresa, teArmazem, dhdata_criacao, teReferencia, teAlbaran","—","—","Ativo"],["IX_Cli_Ptelin_PteCarMatch","NONCLUSTERED","Não único","tefecho_tipo, infecho_numero","—","—","Ativo"],["IX_Cli_Ptelin_FechoReferencia","NONCLUSTERED","Não único","tefecho_tipo, infecho_numero, teReferencia","—","—","Ativo"]]}]},{"nome":"Clientes","info":{"Origem":"PUB.cliente + direccion + cliente-serie (VEN)","Importador":"importar_clientes.py","Chave do sincronismo":"teEmpresa + inCodigo","Regra":"Insere/atualiza; ausência não elimina nem inativa. Baixa vem da origem."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inCodigo","INT","Não","—","—","PK","c.\"cli\""],["2","teNome","NVARCHAR(70)","Sim","—","—","—","c.\"raz\""],["3","teSegundo_Nome","NVARCHAR(70)","Sim","—","—","—","d.\"pju\""],["4","teMorada","NVARCHAR(70)","Sim","—","—","—","d.\"dir\""],["5","tecodigo_Postal","NVARCHAR(8)","Sim","—","—","—","COALESCE(d.\"pro\", '') + '-' + COALESCE(d.\"pob\", '')"],["6","teTelefone","NVARCHAR(25)","Sim","—","—","—","d.\"tel1\""],["7","teNif","NVARCHAR(15)","Sim","—","—","—","c.\"cif\""],["8","teMail","NVARCHAR(254)","Sim","—","—","—","SUBSTRING(d.\"email\",1,4000)"],["9","teZona","NVARCHAR(3)","Sim","—","—","—","c.\"zona\""],["10","teTipo_Cliente","NVARCHAR(3)","Sim","—","—","—","s.\"tcl\""],["11","dhdata_baixa","DATETIME","Sim","—","—","—","s.\"fecbaj\""],["12","teMotivo_Baixa","NVARCHAR(3)","Sim","—","—","—","s.\"baja\""],["13","inVendedor","INT","Sim","—","—","—","s.\"ven\""],["14","teModo_Entrega","NVARCHAR(1)","Sim","—","—","—","s.\"moe\""],["15","teTarifa","NVARCHAR(3)","Sim","—","—","—","s.\"tar\""],["16","teModo_Pagamento","NVARCHAR(3)","Sim","—","—","—","s.\"pgm\""],["17","teEmpresa","NVARCHAR(3)","Sim","—","—","—","c.\"emp\""],["18","dhdata_criacao","DATETIME","Sim","—","—","—","s.\"fecalt\""]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Clientes","CLUSTERED","PK","inCodigo","—","—","Ativo"]]}]},{"nome":"OE_ContaCorrenteSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(260)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(6)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(6)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(11)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Conta__3CDC92FFD1A572DC","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_DocumentoLinhaSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(260)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(6)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(6)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(11)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Docum__3CDC92FF538BF1E0","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_DocumentoSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(260)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(6)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(6)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(11)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Docum__3CDC92FFEECCCEBB","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_EncomendaLinhaSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(256)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(0)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(0)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(20)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Encom__3CDC92FFDFB734DF","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_EncomendaSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(256)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(0)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(0)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(20)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Encom__3CDC92FF7FD55CEC","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_PtelinSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(256)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(0)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(0)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(20)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Pteli__3CDC92FF92E4CDDE","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_PvpSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(260)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(6)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(6)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(11)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_PvpSy__3CDC92FFAEFB5C1F","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_ReferenciaSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(260)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(6)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(6)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(11)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Refer__3CDC92FF1CBE3130","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"OE_StockSync","info":{"Regra":"Tabela técnica de marcador incremental, atualizada pelos sincronismos."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","destino","NVARCHAR(260)","Não","—","—","PK","Nome qualificado da tabela destino"],["2","ultima_inicio","DATETIME2(6)","Não","—","—","—","Início da última leitura confirmada"],["3","ultima_fim","DATETIME2(6)","Não","—","—","—","Fim confirmado da sincronização"],["4","modo","VARCHAR(11)","Não","—","—","—","full ou incremental"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK__OE_Stock__3CDC92FFA811E7DA","CLUSTERED","PK","destino","—","—","Ativo"]]}]},{"nome":"Utilizadores","info":{"Origem":"PUB.suusuario","Importador":"importar_catalogos.py","Chave do sincronismo":"teUtilizador","Regra":"Insere/atualiza; não elimina nem inativa por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teUtilizador","NVARCHAR(12)","Não","—","—","PK","usuario"],["3","teNome","NVARCHAR(30)","Sim","—","—","—","nombre"],["4","teGrupo","NVARCHAR(16)","Sim","—","—","—","grupo"],["5","teempresa","NVARCHAR(30)","Sim","—","—","—","empomi"],["6","teEmail","NVARCHAR(50)","Sim","—","—","—","email"],["7","dhdata_baixa","DATETIME","Sim","—","—","—","fecbaja"],["8","dhdata_criacao","DATETIME","Sim","—","—","—","fecalta"],["9","loativo","INT","Sim","—","—","—","fecbaja NULL → 0; não NULL → 1 (regra atual do código)"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Utilizadores","CLUSTERED","PK","inid, teUtilizador","—","—","Ativo"]]}]},{"nome":"Vendedores","info":{"Origem":"PUB.vendedor","Importador":"importar_catalogos.py","Chave do sincronismo":"teempresa + incodigo","Regra":"Insere/atualiza; não elimina nem inativa por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","incodigo","INT","Sim","—","—","—","ven"],["3","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["4","teNIF","NVARCHAR(15)","Sim","—","—","—","cif"],["5","dhdata_criacao","DATETIME","Sim","—","—","—","fecalt"],["6","teNome","NVARCHAR(70)","Sim","—","—","—","raz"],["7","tetipo_comissao","NVARCHAR(1)","Sim","—","—","—","tipcom"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Vendedores","CLUSTERED","PK","inid","—","—","Ativo"]]}]},{"nome":"Zonas","info":{"Origem":"PUB.zona","Importador":"importar_catalogos.py","Chave do sincronismo":"teempresa + tezona","Regra":"Insere/atualiza; não elimina nem inativa por ausência."},"blocos":[{"titulo":"Colunas","cab":["#","Coluna","Tipo","NULL","Geração","Default","Chave","Origem / preenchimento"],"linhas":[["1","inid","INT","Não","IDENTITY(1,1)","—","PK","Gerado pelo SQL Server"],["2","teempresa","NVARCHAR(3)","Sim","—","—","—","emp"],["3","tezona","NVARCHAR(3)","Sim","—","—","—","zona"],["4","tedescricao","NVARCHAR(30)","Sim","—","—","—","zonades"]]},{"titulo":"Índices e unicidade","cab":["Nome","Tipo","Unicidade","Chaves ordenadas","INCLUDE","Filtro","Estado"],"linhas":[["PK_Zonas","CLUSTERED","PK","inid","—","—","Ativo"]]}]}];
+
+const DOM = {
+  art:{nome:'Artigos',c:'var(--art)'}, enc:{nome:'Encomendas e Ptelin',c:'var(--enc)'},
+  doc:{nome:'Documentos e devoluções',c:'var(--doc)'}, gar:{nome:'Garantias',c:'var(--gar)'},
+  cli:{nome:'Clientes e catálogos',c:'var(--cli)'}, fin:{nome:'Financeiro',c:'var(--fin)'},
+  ctl:{nome:'Controlo incremental',c:'var(--ctl)'}
+};
+function dominio(n){
+  if(n.startsWith('Art_'))return'art';
+  if(/^Cli_(Encomendas|Ptelin)/.test(n))return'enc';
+  if(/^Cli_(Documentos|Devolucoes)/.test(n))return'doc';
+  if(/^Cli_[Gg]arantia/.test(n))return'gar';
+  if(/^Cli_(Conta|Pagamentos)/.test(n))return'fin';
+  if(n.startsWith('OE_'))return'ctl';
+  return'cli';
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tlink=n=>`<a href="#t=${n}">${n}</a>`;
+
+/* ---------- Linha do tempo ---------- */
+const HOR=[
+  {n:'Cadeia operacional',s:'7 etapas',full:['02:00'],inc:['08:05','22:05','cada 5 min']},
+  {n:'Referências',full:['03:00'],inc:['08:00','19:00','cada hora']},
+  {n:'PVPs',full:['03:00'],inc:['08:03','19:03','cada hora']},
+  {n:'Catálogos',s:'8 tabelas',full:['05:00']},
+  {n:'Localizações',full:['05:00']},
+  {n:'Stocks',full:['05:30'],inc:['08:00','19:00','cada 10 min']},
+  {n:'Clientes',s:'só full',band:['08:30','19:30','full a cada 30 min']},
+  {n:'Garantias',s:'seg–sáb · independente',band:['08:15','19:15','full a cada hora']}
+];
+const pct=h=>{const[a,b]=h.split(':').map(Number);return (a*60+b)/1440*100};
+(function(){
+  let h='';
+  for(const r of HOR){
+    let t='';
+    (r.full||[]).forEach(x=>t+=`<span class="mark" style="left:${pct(x)}%" title="Full ${x}"></span><span class="mark-l" style="left:${pct(x)}%">${x}</span>`);
+    if(r.inc)t+=`<span class="band inc" style="left:${pct(r.inc[0])}%;width:${pct(r.inc[1])-pct(r.inc[0])}%" title="Incremental ${r.inc[0]}–${r.inc[1]}, ${r.inc[2]}">${r.inc[0]}–${r.inc[1]} · ${r.inc[2]}</span>`;
+    if(r.band)t+=`<span class="band full" style="left:${pct(r.band[0])}%;width:${pct(r.band[1])-pct(r.band[0])}%" title="${r.band[0]}–${r.band[1]}, ${r.band[2]}">${r.band[0]}–${r.band[1]} · ${r.band[2]}</span>`;
+    h+=`<div class="tl-row"><div class="tl-name">${r.n}${r.s?`<small>${r.s}</small>`:''}</div><div class="tl-track">${t}</div></div>`;
+  }
+  let ax='';for(let i=0;i<=24;i+=3)ax+=`<span style="left:${i/24*100}%">${String(i).padStart(2,'0')}h</span>`;
+  h+=`<div class="tl-axis"><div></div><div>${ax}</div></div>`;
+  document.getElementById('timeline').innerHTML=h;
+})();
+
+/* ---------- Sincronismos ---------- */
+const SYNC=[
+ ['Art_Referencias','PUB.referencia','teReferencia','fecal / fecsu / fecobs','OE_ReferenciaSync','Full: inativa ausentes; incremental: insere/atualiza/reativa.','importar_referencias.py'],
+ ['Art_PVP','PUB.refer-tarifa','teEmpresa + teReferencia + teTarifa','fecam','OE_PvpSync','Full: inativa ausentes; incremental: preserva ausentes.','importar_pvps.py'],
+ ['Art_Stocks','PUB.refer-alm','teEmpresa + teArmazem + teArmazem_Deposito + teReferencia','fecha + hora (segundos)','OE_StockSync','inId herdado do artigo. Exclui referências sem artigo; full inativa ausentes.','importar_stocks.py'],
+ ['Art_Localizacao','PUB.refer-ubica','teEmpresa + teArmazem + teReferencia + teLocalizacao','','','inId herdado do artigo; exclui referências sem artigo; inativa ausentes.','importar_localizacoes.py'],
+ ['Art_Marcas','PUB.marca','teEmpresa + teMarca','','','Insere/atualiza; inativa ausentes e reativa reaparecidos.','importar_catalogos.py'],
+ ['Art_Familias','PUB.fam-propia','teEmpresa + teFamilia','','','Insere/atualiza; inativa ausentes e reativa reaparecidos.','importar_catalogos.py'],
+ ['Art_Seccao','PUB.seccion-alm','teEmpresa + teSeccao','','','Insere/atualiza; inativa ausentes e reativa reaparecidos.','importar_catalogos.py'],
+ ['Cli_EncomendasCab','PUB.pcli-alm-c1','inDocumento_Numero + teContador','fecmod + hormod','OE_EncomendaSync','Insere/atualiza; elimina documentos confirmados em reporte-lin.','importar_encomendas.py'],
+ ['Cli_EncomendasLin','PUB.pcli-alm-lin','inDocumento_Numero + teContador + inLinha_Numero','fechaext + horaext','OE_EncomendaLinhaSync','Liga ao cabeçalho e usa a sequência global de IDs; eliminações confirmadas.','importar_encomendas_linhas.py'],
+ ['Cli_Ptelin','PUB.medcatpteser','teEmpresa + teArmazem + dhdata_criacao + teReferencia + teAlbaran','fecha + hora (segundos)','OE_PtelinSync','Insere/atualiza; IDs da sequência global. Descobre o fecho em cargadoen.','importar_ptelin.py'],
+ ['Cli_DocumentosCab','PUB.fac-alm-c1','inDocumento_Numero + teContador','fedoc + hora','OE_DocumentoSync','Insere/atualiza; remove documentos anulados e respetivas linhas.','importar_documentos.py'],
+ ['Cli_DocumentosLin','PUB.historico-alm · tmv IN (SFC, EFC)','inDocumento_Numero + teContador + inLinha_Numero + teReferencia + dhData_Movimento','femov + hora','OE_DocumentoLinhaSync','Insere/atualiza, liga ao cabeçalho, elimina anulados; reconciliação posterior.','importar_documentos_linhas.py'],
+ ['Cli_DevolucoesLin','PUB.historico-alm · tmv = EFC','inDocumento_Numero + teContador + inLinha_Numero + teReferencia + dhData_Movimento','femov + hora','OE_DocumentoLinhaSync','Marcador próprio por destino; copia ligações dos documentos. Não elimina por ausência.','importar_devolucoes_linhas.py'],
+ ['Cli_Garantias','PUB.garantia','teempresa + innumero_garantia','','','Insere/atualiza diferenças; não elimina por ausência.','importar_garantias.py'],
+ ['Cli_garantia_veiculo','PUB.garantiaVehic','teempresa + Innumero_garantia','','','inid herdado da garantia; pai em falta/duplicado aborta; não elimina ausentes.','importar_garantia_veiculo.py'],
+ ['Clientes','PUB.cliente + direccion + cliente-serie (VEN)','teEmpresa + inCodigo','','','Insere/atualiza; a ausência não elimina nem inativa. A baixa vem da origem.','importar_clientes.py'],
+ ['Vendedores','PUB.vendedor','teempresa + incodigo','','','Insere/atualiza; não elimina nem inativa por ausência.','importar_catalogos.py'],
+ ['Utilizadores','PUB.suusuario','teUtilizador','','','Insere/atualiza; não elimina nem inativa por ausência.','importar_catalogos.py'],
+ ['Cli_Modo_Pagamento','PUB.pago-modo','teempresa + temodo_pagamento','','','Insere/atualiza; não elimina nem inativa por ausência.','importar_catalogos.py'],
+ ['Zonas','PUB.zona','teempresa + tezona','','','Insere/atualiza; não elimina nem inativa por ausência.','importar_catalogos.py'],
+ ['Cli_Modo_Entrega','PUB.modo-entrega','teempresa + temodo_entrega','','','Insere/atualiza; não elimina nem inativa por ausência.','importar_catalogos.py'],
+ ['Cli_Conta_Corrente','PUB.cobro','teempresa + teSerie + indocumento_numero + innumero_vencimento','fedoc / fecob / fesit / feest, com 1 dia de sobreposição','OE_ContaCorrenteSync','Full inicial automático sem marcador; preserva ausentes.','importar_conta_corrente.py']
+];
+let syncFiltro='all';
+function renderSync(){
+  const ordem=['art','enc','doc','gar','fin','cli'];let h='';
+  for(const d of ordem){
+    const rows=SYNC.filter(r=>dominio(r[0])===d&&(syncFiltro==='all'||(syncFiltro==='inc')===!!r[3]));
+    if(!rows.length)continue;
+    h+=`<div class="sync-group" style="--c:${DOM[d].c}"><h3>${DOM[d].nome}</h3><div class="sync-cards">`;
+    for(const[t,o,k,delta,m,regra,imp]of rows){
+      h+=`<div class="sync" style="--c:${DOM[d].c}"><div class="top"><a href="#t=${t}">${t}</a>${delta?'<span><span class="pill full">full</span> <span class="pill inc">incremental</span></span>':'<span class="pill full">só full</span>'}</div>
+      <div class="src"><code>${esc(o)}</code> → <code>${t}</code></div>
+      <dl><dt>Chave</dt><dd><code>${esc(k)}</code></dd>${delta?`<dt>Delta por</dt><dd>${esc(delta)}</dd><dt>Marcador</dt><dd><code>${m}</code></dd>`:''}<dt>Ausentes</dt><dd>${esc(regra)}</dd><dt>Importador</dt><dd><code>${imp}</code></dd></dl></div>`;
+    }
+    h+='</div></div>';
+  }
+  document.getElementById('syncs').innerHTML=h;
+}
+document.querySelectorAll('#syncFilters button').forEach(b=>b.onclick=()=>{
+  syncFiltro=b.dataset.f;document.querySelectorAll('#syncFilters button').forEach(x=>x.setAttribute('aria-pressed',x===b));renderSync();
+});
+renderSync();
+
+/* ---------- Relações ---------- */
+const IMPL=[
+ ['Art_Stocks / Art_Localizacao','Art_Referencias','teReferencia → teReferencia; inId copiado do artigo','Uma referência pode ter vários stocks/localizações; aqui o inId não identifica a linha.','importar_stocks.py · importar_localizacoes.py'],
+ ['Cli_EncomendasLin','Cli_EncomendasCab','inDocumento_Numero + teContador → preenche inId_Cab','Criada pelo importador e protegida pelas duas FKs da tabela de linhas.','importar_encomendas_linhas.py'],
+ ['Cli_DocumentosLin / Cli_DevolucoesLin','Cli_DocumentosCab','teContador + inDocumento_Numero + YEAR(dhData_Movimento)=inAno + teEmpresa + teArmazem','inid_cab só recebe o ID com correspondência única; ausente ou ambígua → NULL.','documentos_cab_ligacao.py'],
+ ['Cli_DocumentosLin','Cli_Ptelin','teContador=tefecho_tipo · inDocumento_Numero=infecho_numero · referência · ano do movimento = ano do fecho · descrição','Ptelin tem prioridade: inPteCar=1. inid_encomenda só recebe o ID se houver um único candidato.','reconciliar_inptecar.py'],
+ ['Cli_DocumentosLin','Cli_EncomendasLin (via Cab)','Fecho: contador + número; linha: referência + descrição + ano; l.inId_Cab = c.inId','Sem Ptelin e com fecho de encomenda: inPteCar=0. inid_encomenda aponta para a LINHA, não para o cabeçalho. Sem origem → ambos NULL.','reconciliar_inptecar.py'],
+ ['Cli_DevolucoesLin','Cli_DocumentosLin','número + contador + linha + referência + data do movimento + empresa + armazém','Copia inPteCar e inid_encomenda (ausência → NULL). Os IDs das devoluções são independentes.','devolucoes_linhas.py'],
+ ['Cli_garantia_veiculo','Cli_Garantias','teempresa + Innumero_garantia → teempresa + innumero_garantia','Copia o inid do pai; falta ou duplicação aborta. A PK em inid limita a um veículo por garantia.','importar_garantia_veiculo.py']
+];
+const box=(t)=>`<div class="tbox" style="--c:${DOM[dominio(t.split(' ')[0])].c}"><b>${esc(t)}</b></div>`;
+document.getElementById('impl').innerHTML=IMPL.map(([a,b,regra,comp,src])=>
+ `<div class="rel-card"><div class="rel">${box(a)}<div class="to">↓</div>${box(b)}</div>
+  <p style="color:var(--ink)"><code>${esc(regra)}</code></p><p>${esc(comp)}</p><div class="src mono">${esc(src)}</div></div>`).join('');
+
+const DOMREL=[
+ ['Art_PVP; linhas operacionais; garantias','Art_Referencias','teReferencia → teReferencia','Código de artigo, sem integridade referencial garantida.'],
+ ['Art_Referencias; linhas de encomendas/documentos/devoluções; Ptelin','Art_Marcas / Art_Familias / Art_Seccao','teMarca / teFamilia / teSeccao (+ teEmpresa quando existe)','Art_Referencias não tem teEmpresa: definir o contexto de empresa antes de juntar catálogos.'],
+ ['Clientes','Zonas / Vendedores / Cli_Modo_Entrega / Cli_Modo_Pagamento','teEmpresa + teZona / inVendedor / teModo_Entrega / teModo_Pagamento','Códigos de negócio; Vendedores usa incodigo. Não juntar por inid.'],
+ ['Cli_EncomendasCab/Lin; Cli_DocumentosCab; Cli_Ptelin; Cli_Garantias','Clientes','teEmpresa + inCliente → teEmpresa + inCodigo','A PK física de Clientes é só inCodigo.'],
+ ['Cli_DocumentosLin / Cli_DevolucoesLin','Clientes','teEmpresa + inEntidade → teEmpresa + inCodigo','Interpretar inEntidade no contexto SFC/EFC.'],
+ ['Cabeçalhos, documentos, devoluções, conta corrente','Vendedores','teEmpresa + inVendedor → teempresa + incodigo','Código do vendedor, não ID interno.'],
+ ['Cli_DocumentosCab','Cli_Modo_Entrega','teEmpresa + teModo_Entrega','Modo de entrega associado ao documento.'],
+ ['Cli_Conta_Corrente','Cli_DocumentosCab','teempresa + inano + teSerie + tecontador + indocumento_numero','Vários vencimentos por documento; validar antes de usar. Sem ligação por ID.'],
+ ['Cli_Conta_Corrente','Clientes','teempresa + incliente_agrupado','É o cliente agrupado: confirmar a regra de agregação.'],
+ ['Cli_Garantias','Cli_DocumentosCab/Lin','Fatura: empresa + ano + série + contador + número (+ linha); crédito: campos equivalentes','Não reconciliadas por ID. Não há tabela de fornecedores/viaturas para outros códigos.'],
+ ['Cli_DocumentosLin / Cli_DevolucoesLin','Cli_DocumentosCab','inalbaran_ano + tealbaran_contador + inalbaran_numero (+ empresa)','Referência de abono/albarán, sem resolução automática por ID.'],
+ ['Clientes + Art_PVP','Art_PVP','empresa + tarifa + referência do artigo','teTarifa sozinha não identifica um preço.'],
+ ['teOperador / teOperador_extracao','Utilizadores','teUtilizador, se o domínio coincidir','A confirmar. Não confundir com códigos de armazém/vendedor.'],
+ ['Art_Stocks / linhas com localização','Art_Localizacao','empresa + armazém + referência + localização','Depósito não é o mesmo que localização.'],
+ ['Cli_Pagamentos','Clientes / Cli_DocumentosCab / Cli_Modo_Pagamento','empresa, cliente, série, número e pagamento','Sem importador; ligação e cobertura temporal não confirmadas.'],
+ ['Cli_Conta_Corrente.temodo_pagamento','Cli_Modo_Pagamento','cobro.pgf vs catálogo pago-modo.pgm','Não juntar diretamente: pgf é mapeado para teforma_pagamento no catálogo.']
+];
+document.getElementById('dom').innerHTML=DOMREL.map(r=>`<tr><td>${esc(r[0])}</td><td><b>${esc(r[1])}</b></td><td><code>${esc(r[2])}</code></td><td>${esc(r[3])}</td></tr>`).join('');
+
+/* ---------- Marcadores ---------- */
+const MARK=[
+ ['OE_ContaCorrenteSync','Cli_Conta_Corrente','2026-10-28 11:56:24.720908','2026-10-28 11:56:41.118057','full'],
+ ['OE_DocumentoLinhaSync','Cli_DevolucoesLin','2026-10-28 11:56:04','2026-10-28 11:56:15.005806','incremental'],
+ ['OE_DocumentoLinhaSync','Cli_DocumentosLin','2026-10-28 11:55:36','2026-10-28 11:55:49.828704','incremental'],
+ ['OE_DocumentoSync','Cli_DocumentosCab','2026-10-28 11:55:27','2026-10-28 11:55:34.488880','incremental'],
+ ['OE_EncomendaLinhaSync','Cli_EncomendasLin','2026-10-28 11:55:13','2026-10-28 11:55:22','incremental'],
+ ['OE_EncomendaSync','Cli_EncomendasCab','2026-10-28 11:55:05','2026-10-28 11:55:12','incremental'],
+ ['OE_PtelinSync','Cli_Ptelin','2026-10-28 11:55:24','2026-10-28 11:55:24','incremental'],
+ ['OE_PvpSync','Art_PVP','2026-10-28 11:03:04.042474','2026-10-28 11:03:15.053380','incremental'],
+ ['OE_ReferenciaSync','Art_referencias','2026-10-28 11:00:07.365019','2026-10-28 11:00:08.975215','incremental'],
+ ['OE_StockSync','Art_Stocks','2026-10-28 11:50:04','2026-10-28 11:50:13.938540','incremental']
+];
+document.getElementById('markers').innerHTML=MARK.map(([m,d,i,f,mo])=>
+ `<div class="marker" style="--c:${DOM[dominio(d)].c}"><div style="display:flex;justify-content:space-between;gap:6px"><b>${d}</b><span class="pill ${mo==='full'?'full':'inc'}">${mo}</span></div>
+  <div class="mono" style="color:var(--muted)">${m}</div><div class="t">início ${i.slice(11,19)} · fim ${f.slice(11,19)}</div></div>`).join('');
+
+/* ---------- Fontes ---------- */
+document.getElementById('files').innerHTML=['agendar_cadeia_operacional.ps1','agendar_clientes.ps1','agendar_documentos.ps1','agendar_encomendas.ps1','agendar_full_auxiliares.ps1','agendar_garantias.ps1','agendar_ptelin.ps1','agendar_pvps.ps1','agendar_referencias.ps1','agendar_stocks.ps1','conta_corrente_estado.py','devolucoes_linhas.py','documentos_anulados.py','documentos_cab_ligacao.py','documentos_estado.py','documentos_linhas_estado.py','encomendas_eliminadas.py','encomendas_estado.py','executar_cadeia_operacional.py','ids_linhas_globais.py','importar_catalogos.py','importar_clientes.py','importar_conta_corrente.py','importar_devolucoes_linhas.py','importar_documentos.py','importar_documentos_linhas.py','importar_encomendas.py','importar_encomendas_linhas.py','importar_garantia_veiculo.py','importar_garantias.py','importar_localizacoes.py','importar_ptelin.py','importar_pvps.py','importar_referencias.py','importar_stocks.py','monitor_sync.py','ptelin_estado.py','pvp_estado.py','reconciliar_inptecar.py','referencia_estado.py','stocks_estado.py','test_ptelin_estado.py'].map(f=>`<div><code>${f}</code></div>`).join('');
+
+/* ---------- Dicionário ---------- */
+const POR_NOME=Object.fromEntries(TABELAS.map(t=>[t.nome,t]));
+let atual='Art_Referencias',termo='';
+const hl=s=>{s=esc(s);if(!termo)return s;const i=s.toLocaleLowerCase('pt-PT').indexOf(esc(termo));return i<0?s:s.slice(0,i)+'<mark>'+s.slice(i,i+termo.length)+'</mark>'+s.slice(i+termo.length)};
+function texto(t){return (t.nome+' '+JSON.stringify(t.info)+' '+t.blocos.map(b=>(b.linhas||[]).flat().join(' ')).join(' ')).toLocaleLowerCase('pt-PT')}
+const IDX=Object.fromEntries(TABELAS.map(t=>[t.nome,texto(t)]));
+
+function chaves(k){return k.split('\n').filter(x=>x&&x!=='—').map(x=>x==='PK'?'<span class="k pk">PK</span>':x==='FK'?'<span class="k fk">FK</span>':'<span class="k uq" title="Faz parte de um índice ou constraint único (pode ser composto)">UQ</span>').join('')}
+function ficha(t){
+  const d=dominio(t.nome),i=t.info;
+  let h=`<div class="tdetail" style="--c:${DOM[d].c}"><div class="eyebrow" style="color:${DOM[d].c}">${DOM[d].nome}</div><h3 class="mono" style="font-size:22px">dbo.${t.nome}</h3>`;
+  h+='<div class="facts">';
+  if(i['Origem'])h+=`<div class="fact"><span>Origem OpenEdge</span><code>${esc(i['Origem'])}</code></div>`;
+  if(i['Importador'])h+=`<div class="fact"><span>Importador</span><code>${esc(i['Importador'])}</code></div>`;
+  if(i['Chave do sincronismo'])h+=`<div class="fact"><span>Chave do sincronismo</span><code>${esc(i['Chave do sincronismo'])}</code></div>`;
+  if(i['Regra'])h+=`<div class="fact"><span>Comportamento</span>${esc(i['Regra'])}</div>`;
+  h+='</div>';
+  for(const b of t.blocos){
+    if(!b.linhas)continue;
+    if(b.titulo==='Colunas'){
+      h+=`<h4>Colunas (${b.linhas.length})</h4><div class="scroll"><table><thead><tr><th>#</th><th>Coluna</th><th>Tipo</th><th>Extras</th><th>Origem / preenchimento</th></tr></thead><tbody>`;
+      for(const[n,col,tipo,nulo,ger,def,k,orig]of b.linhas){
+        const ex=[ger!=='—'?`<span class="tag">${esc(ger)}</span>`:'',def!=='—'?`<span class="tag">default ${esc(def)}</span>`:''].join('');
+        h+=`<tr><td style="color:var(--muted)">${n}</td><td><code>${hl(col)}</code>${chaves(k)}</td><td><code>${hl(tipo)}</code>${nulo==='Sim'?' <span class="null">nulo</span>':''}</td><td>${ex}</td><td>${hl(orig)}</td></tr>`;
+      }
+      h+='</tbody></table></div>';
+    }else{
+      h+=`<h4>${esc(b.titulo)}</h4><div class="scroll"><table><thead><tr>${b.cab.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>`;
+      h+=b.linhas.map(r=>`<tr>${r.map(c=>`<td>${esc(c).replace(/\n/g,'<br>')}</td>`).join('')}</tr>`).join('');
+      h+='</tbody></table></div>';
+    }
+  }
+  return h+'</div>';
+}
+function lista(){
+  const q=termo;let n=0,h='';
+  for(const d of Object.keys(DOM)){
+    const ts=TABELAS.filter(t=>dominio(t.nome)===d&&(!q||IDX[t.nome].includes(q)));
+    if(!ts.length)continue;n+=ts.length;
+    h+=`<h4 style="--c:${DOM[d].c}">${DOM[d].nome}</h4>`+ts.map(t=>`<a href="#t=${t.nome}" class="${t.nome===atual?'sel':''}">${t.nome}<small>${t.blocos[0].linhas.length}</small></a>`).join('');
+  }
+  document.getElementById('tlist').innerHTML=h||'<p style="font-size:13px;color:var(--muted)">Nenhuma tabela encontrada.</p>';
+  document.getElementById('qcount').textContent=`${n} de ${TABELAS.length} tabelas`;
+}
+function mostrar(n){atual=n;lista();document.getElementById('tdetail').innerHTML=ficha(POR_NOME[n])}
+document.getElementById('q').addEventListener('input',e=>{
+  termo=e.target.value.toLocaleLowerCase('pt-PT').trim();lista();
+  if(termo&&!IDX[atual].includes(termo)){const p=TABELAS.find(t=>IDX[t.nome].includes(termo));if(p)atual=p.nome}
+  document.getElementById('tdetail').innerHTML=ficha(POR_NOME[atual]);lista();
+});
+function rota(){
+  const m=decodeURIComponent(location.hash).match(/^#t=(.+)$/);
+  if(m&&POR_NOME[m[1]]){mostrar(m[1]);document.getElementById('dicionario').scrollIntoView()}
+}
+window.addEventListener('hashchange',rota);
+mostrar(atual);rota();
+
+window.addEventListener('beforeprint',()=>{
+  const t=termo;termo='';document.getElementById('print-all').innerHTML=TABELAS.map(ficha).join('<div style="height:12px"></div>');termo=t;
+  document.querySelectorAll('details').forEach(d=>{d.dataset.o=d.open;d.open=true});
+});
+window.addEventListener('afterprint',()=>document.querySelectorAll('details').forEach(d=>d.open=d.dataset.o==='true'));
+document.getElementById('print').onclick=()=>window.print();
+</script>
+</body>
+</html>

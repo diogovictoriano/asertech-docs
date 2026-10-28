@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ASER_TECH — Estrutura e relações</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1a2430;--muted:#5f6c7a;--line:#e1e6ec;--accent:#1f6fb2;--warn:#fff4e0;
+  --a:#2563a8;--b:#0f8a7e;--c:#7048b8;--d:#b4661a;--e:#c03f6b;--f:#3f7d3a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10161d;--card:#18212b;--ink:#e6ebf0;--muted:#9eabb8;--line:#2b3744;--accent:#7cb8e6;--warn:#2d2414;
+  --a:#6fa6e8;--b:#4cc3b6;--c:#ab8fe6;--d:#e2a05a;--e:#ec7fa3;--f:#86c27f}}
+:root[data-theme="dark"]{--bg:#10161d;--card:#18212b;--ink:#e6ebf0;--muted:#9eabb8;--line:#2b3744;--accent:#7cb8e6;--warn:#2d2414;
+  --a:#6fa6e8;--b:#4cc3b6;--c:#ab8fe6;--d:#e2a05a;--e:#ec7fa3;--f:#86c27f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Segoe UI",system-ui,Arial,sans-serif}
+main{max-width:980px;margin:auto;padding:48px 20px 70px}
+h1{font-size:40px;margin:0 0 8px;line-height:1.1}
+h2{font-size:24px;margin:0 0 6px}
+.intro{font-size:19px;color:var(--muted);margin:0;max-width:760px}
+section{margin-top:52px}
+.sub{color:var(--muted);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
+
+/* 1. Ideia geral */
+.flow{display:flex;align-items:center;gap:14px;margin-top:28px}
+.flow .box{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center}
+.flow .box b{display:block;font-size:19px}
+.flow .box span{font-size:14px;color:var(--muted)}
+.flow .arr{font-size:28px;color:var(--muted);text-align:center}
+.flow .arr small{display:block;font-size:12px}
+
+/* 2. O que lá está */
+.areas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.area{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--k);border-radius:16px;padding:18px 20px}
+.area .ico{font-size:28px;line-height:1}
+.area b{display:block;font-size:19px;margin:8px 0 2px}
+.area p{margin:0;font-size:15px;color:var(--muted)}
+
+/* 3. Como se liga */
+.story{display:flex;align-items:center;flex-wrap:wrap;gap:10px;font-size:16px}
+.story .t{background:var(--card);border:2px solid var(--k);border-radius:12px;padding:8px 16px;font-weight:600}
+.story .v{color:var(--muted);font-size:14px}
+.links{display:grid;gap:14px}
+.links .card{display:flex;flex-direction:column;gap:10px}
+.links .card p{margin:0;font-size:15px;color:var(--muted)}
+
+/* 4. Quando atualiza */
+.when{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.when .card{display:flex;gap:16px;align-items:flex-start}
+.when .big{font-size:26px;font-weight:800;min-width:118px;white-space:nowrap;line-height:1.1;color:var(--accent)}
+.when .big small{display:block;font-size:13px;font-weight:600;color:var(--muted)}
+.when b{display:block}
+.when p{margin:2px 0 0;font-size:15px;color:var(--muted)}
+
+/* 5. Se algo correr mal */
+.steps{counter-reset:n;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.steps .card{counter-increment:n;position:relative;padding-top:52px}
+.steps .card::before{content:counter(n);position:absolute;top:18px;left:22px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--card);display:grid;place-items:center;font-weight:800;font-size:15px}
+.steps p{margin:4px 0 0;font-size:15px;color:var(--muted)}
+.never{margin-top:14px;background:var(--warn);border-radius:16px;padding:16px 20px;font-size:15.5px}
+code{font-family:Consolas,ui-monospace,monospace;font-size:.9em;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:0 5px}
+
+.more{margin-top:52px;text-align:center;color:var(--muted);font-size:15px}
+.more a{display:inline-block;margin-top:8px;padding:12px 22px;border-radius:12px;background:var(--accent);color:var(--card);font-weight:700;text-decoration:none}
+
+@media(max-width:760px){
+  main{padding:28px 16px 50px}h1{font-size:32px}
+  .areas,.when,.steps{grid-template-columns:1fr}
+  .flow{flex-direction:column}.flow .box{width:100%}.flow .arr{transform:rotate(90deg)}
+}
+</style>
+</head>
+<body>
+<main>
+
+<h1>ASER_TECH</h1>
+<p class="intro">É uma cópia dos dados do OpenEdge numa base SQL Server. Atualiza-se sozinha ao longo do dia, para que relatórios e outras aplicações possam usar os dados sem tocar no OpenEdge.</p>
+
+<div class="flow">
+  <div class="box"><b>OpenEdge</b><span>onde os dados são criados</span></div>
+  <div class="arr">→<small>cópia automática</small></div>
+  <div class="box"><b>ASER_TECH</b><span>base SQL Server</span></div>
+  <div class="arr">→<small>consulta</small></div>
+  <div class="box"><b>Relatórios e aplicações</b><span>leem daqui</span></div>
+</div>
+
+<section>
+  <h2>O que lá está</h2>
+  <p class="sub">Seis áreas de informação.</p>
+  <div class="areas">
+    <div class="area" style="--k:var(--a)"><div class="ico">📦</div><b>Artigos</b><p>Referências, preços, stocks, localizações, marcas e famílias.</p></div>
+    <div class="area" style="--k:var(--e)"><div class="ico">👥</div><b>Clientes</b><p>Clientes, vendedores, zonas e modos de entrega e de pagamento.</p></div>
+    <div class="area" style="--k:var(--b)"><div class="ico">📝</div><b>Encomendas</b><p>Encomendas de clientes e registos Ptelin.</p></div>
+    <div class="area" style="--k:var(--c)"><div class="ico">🧾</div><b>Documentos</b><p>Faturas, guias e devoluções.</p></div>
+    <div class="area" style="--k:var(--d)"><div class="ico">🛡️</div><b>Garantias</b><p>Pedidos de garantia e o veículo associado.</p></div>
+    <div class="area" style="--k:var(--f)"><div class="ico">💶</div><b>Conta corrente</b><p>Valores a receber de cada cliente e respetivos vencimentos.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Como a informação se liga</h2>
+  <p class="sub">O percurso normal de uma venda:</p>
+  <div class="card">
+    <div class="story">
+      <span class="t" style="--k:var(--e)">Cliente</span><span class="v">faz uma</span>
+      <span class="t" style="--k:var(--b)">Encomenda</span><span class="v">que dá origem a uma</span>
+      <span class="t" style="--k:var(--c)">Fatura</span><span class="v">que pode ter uma</span>
+      <span class="t" style="--k:var(--c)">Devolução</span><span class="v">e fica na</span>
+      <span class="t" style="--k:var(--f)">Conta corrente</span>
+    </div>
+    <p class="sub" style="margin:16px 0 0;font-size:15px">Cada linha de encomenda, fatura ou devolução refere um <b>artigo</b>. Cada <b>garantia</b> pode ter um veículo e refere a fatura original.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Quando é atualizada</h2>
+  <p class="sub">Durante o dia só se copia o que mudou. De noite faz-se uma verificação completa.</p>
+  <div class="when">
+    <div class="card"><div class="big">5 min<small>8h às 22h</small></div><div><b>Encomendas, faturas, devoluções, garantias e conta corrente</b><p>Correm em sequência, por esta ordem.</p></div></div>
+    <div class="card"><div class="big">10 min<small>8h às 19h</small></div><div><b>Stocks</b></div></div>
+    <div class="card"><div class="big">30 min<small>8h30 às 19h30</small></div><div><b>Clientes</b></div></div>
+    <div class="card"><div class="big">1 hora<small>8h às 19h</small></div><div><b>Referências e preços</b></div></div>
+    <div class="card" style="grid-column:1/-1"><div class="big">De noite<small>2h às 5h30</small></div><div><b>Verificação completa de tudo</b><p>Apanha o que possa ter escapado durante o dia. Marcas, famílias, zonas e outras listas de apoio só se atualizam aqui, uma vez por dia.</p></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Se algo correr mal</h2>
+  <p class="sub">Se um passo falhar, os seguintes ficam parados, mas o que já foi copiado mantém-se.</p>
+  <div class="steps">
+    <div class="card"><b>Abrir o monitor</b><p>No servidor, executar <code>iniciar_monitor.ps1</code> e abrir <code>http://127.0.0.1:8088</code>.</p></div>
+    <div class="card"><b>Ver o que falhou</b><p>O monitor mostra qual o passo que falhou. Os detalhes estão na pasta <code>logs</code>.</p></div>
+    <div class="card"><b>Corrigir e repetir</b><p>Resolver a causa e voltar a correr. Se houver dúvidas, chamar o responsável técnico.</p></div>
+  </div>
+  <div class="never">⚠️ <b>Nunca</b> apagar tabelas nem dados de controlo para «forçar» uma atualização. Isso pode duplicar ou perder informação.</div>
+</section>
+
+<div class="more">
+  Precisa de colunas, chaves, comandos ou horários exatos?<br>
+  <a href="detalhe.html">Abrir o detalhe técnico →</a>
+</div>
+
+</main>
+</body>
+</html>
