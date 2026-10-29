@@ -534,6 +534,107 @@ footer{margin-top:40px;font-size:12px;color:var(--muted)}
       <tr><td class="mono">fn_Cli_Divida_Linhas(@Fim)</td><td>Cada vencimento em aberto no fim de @Fim, com dias e escalão</td><td><code>SELECT * FROM dbo.fn_Cli_Divida_Linhas('2026-09-30')</code></td></tr>
       <tr><td class="mono">fn_Litros_Descricao(@Descricao)</td><td>Litros da embalagem lidos do texto</td><td><code>'OLEO … (5 LT)'</code> → 5</td></tr>
     </tbody></table></div>
+    <p style="font-size:13.5px;margin:14px 0 6px"><b>Código das funções</b> <span style="color:var(--muted)">(o mesmo que está em ASER_TECH → Programmability → Functions)</span></p>
+      <details><summary class="mono">fn_Cli_Consumos</summary><div class="body"><pre>CREATE OR ALTER FUNCTION [dbo].[fn_Cli_Consumos] (@Inicio date, @Fim date)
+RETURNS TABLE
+AS RETURN
+WITH vendas AS (
+    SELECT inCliente,
+           moVolume = SUM(moValor),
+           moExtras = SUM(CASE WHEN teExtra IS NOT NULL THEN moValor ELSE 0 END),
+           nuBaterias = SUM(CASE WHEN boBateria = 1 THEN nuQuantidade ELSE 0 END),
+           nuOleos_Litros = SUM(ISNULL(nuLitros, 0))
+    FROM [dbo].[fn_Cli_Consumos_Linhas](@Inicio, @Fim)
+    GROUP BY inCliente
+), divida AS (
+    SELECT inCliente,
+           moPor_Pagar = SUM(moAberto),
+           mo30_Dias = SUM(CASE WHEN teEscalao = N'1-30 dias' THEN moAberto ELSE 0 END),
+           mo60_Dias = SUM(CASE WHEN teEscalao = N'31-60 dias' THEN moAberto ELSE 0 END),
+           mo90_Dias = SUM(CASE WHEN teEscalao = N'61-90 dias' THEN moAberto ELSE 0 END),
+           moMais_90_Dias = SUM(CASE WHEN teEscalao = N'Mais de 90 dias' THEN moAberto ELSE 0 END)
+    FROM [dbo].[fn_Cli_Divida_Linhas](@Fim)
+    GROUP BY inCliente
+)
+SELECT c.inCodigo AS inCliente, c.teNome, c.dhdata_criacao AS dhData_Criacao, v.teNome AS teComercial,
+       teMes = CHOOSE(MONTH(@Fim), N'Janeiro', N'Fevereiro', N'Março', N'Abril', N'Maio', N'Junho', N'Julho',
+                      N'Agosto', N'Setembro', N'Outubro', N'Novembro', N'Dezembro'),
+       dhInicio = @Inicio, dhFim = @Fim,
+       moVolume = CONVERT(money, ISNULL(s.moVolume, 0)), moExtras = CONVERT(money, ISNULL(s.moExtras, 0)),
+       nuBaterias = CONVERT(decimal(18,2), ISNULL(s.nuBaterias, 0)),
+       nuOleos_Litros = CONVERT(decimal(18,2), ISNULL(s.nuOleos_Litros, 0)),
+       moPor_Pagar = ISNULL(dv.moPor_Pagar, 0), mo30_Dias = ISNULL(dv.mo30_Dias, 0),
+       mo60_Dias = ISNULL(dv.mo60_Dias, 0), mo90_Dias = ISNULL(dv.mo90_Dias, 0),
+       moMais_90_Dias = ISNULL(dv.moMais_90_Dias, 0)
+FROM [dbo].[Clientes] c
+OUTER APPLY (SELECT TOP (1) teNome FROM [dbo].[Vendedores]
+             WHERE incodigo = c.inVendedor AND teempresa = c.teEmpresa) v
+LEFT JOIN vendas s ON s.inCliente = c.inCodigo
+LEFT JOIN divida dv ON dv.inCliente = c.inCodigo;</pre></div></details>
+      <details><summary class="mono">fn_Cli_Consumos_Linhas</summary><div class="body"><pre>CREATE OR ALTER FUNCTION [dbo].[fn_Cli_Consumos_Linhas] (@Inicio date, @Fim date)
+RETURNS TABLE
+AS RETURN
+SELECT l.inEntidade AS inCliente, l.dhData_Movimento, l.teTipo_Movimento, l.teContador,
+       l.inDocumento_Numero, l.inLinha_Numero, l.teReferencia, l.teDescricao,
+       teSeccao = s.seccao, teFamilia = s.familia,
+       nuQuantidade = s.sinal * s.quantidade,
+       moPreco_Unitario = l.moPreco_Unitario_Descontado,
+       moValor = s.sinal * s.quantidade * l.moPreco_Unitario_Descontado,
+       nuLitros_Embalagem = k.litros,
+       nuLitros = CASE WHEN s.seccao = '005' THEN s.sinal * s.quantidade * ISNULL(k.litros, 0) END,
+       teExtra = CASE WHEN s.seccao = 'OEM' THEN N'Origem'
+                      WHEN s.seccao = '203' AND s.familia = '2034' THEN N'Equipamento de diagnóstico'
+                      WHEN s.seccao = '005' AND k.litros IN (205, 208) THEN N'Óleo 205/208 L' END,
+       boBateria = CONVERT(bit, CASE WHEN s.seccao = '164' AND s.familia = '1645' THEN 1 ELSE 0 END),
+       boOleo = CONVERT(bit, CASE WHEN s.seccao = '005' THEN 1 ELSE 0 END)
+FROM [dbo].[Cli_DocumentosLin] l
+CROSS APPLY (SELECT sinal = CASE l.teTipo_Movimento WHEN 'EFC' THEN -1 ELSE 1 END,
+                    quantidade = CONVERT(decimal(19,4), l.nuQuantidade),
+                    seccao = LTRIM(RTRIM(l.teSeccao)), familia = LTRIM(RTRIM(l.teFamilia))) s
+LEFT JOIN [dbo].[Art_Oleos_Litros] o ON s.seccao = '005' AND o.teReferencia = l.teReferencia
+-- Referencias novas ainda fora de Art_Oleos_Litros: le a descricao da propria linha.
+OUTER APPLY [dbo].[fn_Litros_Descricao](
+    CASE WHEN s.seccao = '005' AND o.teReferencia IS NULL THEN l.teDescricao END) d
+CROSS APPLY (SELECT litros = CASE WHEN s.seccao = '005' THEN COALESCE(o.nuLitros, d.nuLitros) END) k
+WHERE l.teTipo_Movimento IN ('SFC', 'EFC')
+  AND l.dhData_Movimento &gt;= @Inicio AND l.dhData_Movimento &lt; DATEADD(day, 1, @Fim);</pre></div></details>
+      <details><summary class="mono">fn_Cli_Divida_Linhas</summary><div class="body"><pre>CREATE OR ALTER FUNCTION [dbo].[fn_Cli_Divida_Linhas] (@Fim date)
+RETURNS TABLE
+AS RETURN
+SELECT inCliente = COALESCE(cc.inCliente, d.inCliente), cc.tecontador AS teContador,
+       cc.indocumento_numero AS inDocumento_Numero, cc.innumero_vencimento AS inNumero_Vencimento,
+       cc.dhdata_documento AS dhData_Documento, cc.dhdata_vencimento AS dhData_Vencimento,
+       cc.temodo_pagamento AS teModo_Pagamento, cc.movalor_nominal AS moNominal,
+       moPago = cc.movalor_nominal - a.aberto, moAberto = a.aberto, inDias_Vencido = a.dias,
+       teEscalao = CASE WHEN a.dias &lt;= 0 THEN N'A vencer' WHEN a.dias &lt;= 30 THEN N'1-30 dias'
+                        WHEN a.dias &lt;= 60 THEN N'31-60 dias' WHEN a.dias &lt;= 90 THEN N'61-90 dias'
+                        ELSE N'Mais de 90 dias' END
+FROM [dbo].[Cli_Conta_Corrente] cc
+-- inCliente vem do cobro; o documento so cobre linhas ainda nao sincronizadas com o cliente.
+LEFT JOIN [dbo].[Cli_DocumentosCab] d
+  ON cc.inCliente IS NULL AND d.teContador = cc.tecontador AND d.inDocumento_Numero = cc.indocumento_numero
+-- Pagamentos sem data de cobranca (parciais) contam como feitos hoje.
+CROSS APPLY (SELECT aberto = cc.movalor_nominal
+                    - CASE WHEN COALESCE(cc.dhdata_cobranca, CONVERT(date, GETDATE())) &lt; DATEADD(day, 1, @Fim)
+                           THEN cc.movalor_pago ELSE 0 END,
+                    dias = DATEDIFF(day, cc.dhdata_vencimento, @Fim)) a
+WHERE cc.dhdata_documento &lt; DATEADD(day, 1, @Fim) AND a.aberto &lt;&gt; 0
+  AND cc.tecontador NOT IN ('01FA', '01NCA');</pre></div></details>
+      <details><summary class="mono">fn_Litros_Descricao</summary><div class="body"><pre>CREATE OR ALTER FUNCTION [dbo].[fn_Litros_Descricao] (@Descricao nvarchar(200))
+RETURNS TABLE
+AS RETURN
+SELECT nuLitros = CASE WHEN p.pos IS NOT NULL THEN CONVERT(decimal(9,3),
+           TRY_CONVERT(decimal(9,3), REPLACE(REVERSE(LEFT(r.rev, PATINDEX('%[^0-9.,]%', r.rev + 'X') - 1)), ',', '.')) / p.divisor)
+       END
+FROM (SELECT texto = UPPER(@Descricao) + ' ') t
+OUTER APPLY (
+    SELECT TOP (1) v.pos, v.divisor FROM (VALUES
+        (PATINDEX('%[0-9]LT[^A-Z]%', t.texto), 1, 1), (PATINDEX('%[0-9] LT[^A-Z]%', t.texto), 1, 2),
+        (PATINDEX('%[0-9]L[^A-Z]%', t.texto), 1, 3), (PATINDEX('%[0-9] L[^A-Z]%', t.texto), 1, 4),
+        (PATINDEX('%[0-9]ML[^A-Z]%', t.texto), 1000, 5), (PATINDEX('%[0-9] ML[^A-Z]%', t.texto), 1000, 6)
+    ) v(pos, divisor, ordem)
+    WHERE v.pos &gt; 0 ORDER BY v.ordem) p
+OUTER APPLY (SELECT rev = REVERSE(LEFT(t.texto, p.pos))) r;</pre></div></details>
   </div>
 
   <div class="grid2" style="margin-top:14px">
