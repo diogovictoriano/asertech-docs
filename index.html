@@ -86,7 +86,7 @@ code{font-family:Consolas,ui-monospace,monospace;font-size:.9em;background:var(-
 
 <section>
   <h2>O que lá está</h2>
-  <p class="sub">Sete áreas de informação.</p>
+  <p class="sub">Oito áreas de informação.</p>
   <div class="areas">
     <div class="area" style="--k:var(--a)"><div class="ico">📦</div><b>Artigos</b><p>Referências, preços, stocks, localizações, marcas e famílias.</p></div>
     <div class="area" style="--k:var(--e)"><div class="ico">👥</div><b>Clientes</b><p>Clientes, vendedores, zonas e modos de entrega e de pagamento.</p></div>
@@ -95,6 +95,7 @@ code{font-family:Consolas,ui-monospace,monospace;font-size:.9em;background:var(-
     <div class="area" style="--k:var(--d)"><div class="ico">🛡️</div><b>Garantias</b><p>Pedidos de garantia e o veículo associado.</p></div>
     <div class="area" style="--k:var(--f)"><div class="ico">💶</div><b>Conta corrente</b><p>Valores a receber de cada cliente e respetivos vencimentos.</p></div>
     <div class="area" style="--k:var(--f)"><div class="ico">🎯</div><b>Rappel</b><p>Bonificação de cada cliente nos planos de rappel, calculada pelas regras do ERP.</p></div>
+    <div class="area" style="--k:var(--e)"><div class="ico">📊</div><b>Consumos</b><p>Por cliente: volume, extras, baterias, litros de óleo e valores por pagar. Calculado na própria base, sem tocar no OpenEdge.</p></div>
   </div>
 </section>
 
@@ -109,7 +110,7 @@ code{font-family:Consolas,ui-monospace,monospace;font-size:.9em;background:var(-
       <span class="t" style="--k:var(--c)">Devolução</span><span class="v">e fica na</span>
       <span class="t" style="--k:var(--f)">Conta corrente</span>
     </div>
-    <p class="sub" style="margin:16px 0 0;font-size:15px">Cada linha de encomenda, fatura ou devolução refere um <b>artigo</b>. Cada <b>garantia</b> pode ter um veículo e refere a fatura original. As vendas e devoluções de cada cliente contam para o seu <b>rappel</b>.</p>
+    <p class="sub" style="margin:16px 0 0;font-size:15px">Cada linha de encomenda, fatura ou devolução refere um <b>artigo</b>. Cada <b>garantia</b> pode ter um veículo e refere a fatura original. As vendas e devoluções de cada cliente contam para o seu <b>rappel</b> e para os seus <b>consumos</b>, que juntam também o que está por pagar na conta corrente.</p>
   </div>
 </section>
 
@@ -120,7 +121,7 @@ code{font-family:Consolas,ui-monospace,monospace;font-size:.9em;background:var(-
     <div class="card"><div class="big">5 min<small>8h às 22h</small></div><div><b>Encomendas, faturas, devoluções, garantias e conta corrente</b><p>Correm em sequência, por esta ordem.</p></div></div>
     <div class="card"><div class="big">10 min<small>8h às 19h</small></div><div><b>Stocks</b></div></div>
     <div class="card"><div class="big">30 min<small>8h30 às 19h30</small></div><div><b>Clientes</b></div></div>
-    <div class="card"><div class="big">1 hora<small>8h às 19h</small></div><div><b>Referências, preços e rappel</b><p>O rappel só de segunda a sábado.</p></div></div>
+    <div class="card"><div class="big">1 hora<small>8h às 19h</small></div><div><b>Referências, preços, rappel e consumos</b><p>O rappel e os consumos só de segunda a sábado.</p></div></div>
     <div class="card" style="grid-column:1/-1"><div class="big">De noite<small>2h às 5h30</small></div><div><b>Verificação completa de tudo</b><p>Apanha o que possa ter escapado durante o dia. Marcas, famílias, zonas e outras listas de apoio só se atualizam aqui, uma vez por dia.</p></div></div>
   </div>
 </section>
@@ -129,11 +130,21 @@ code{font-family:Consolas,ui-monospace,monospace;font-size:.9em;background:var(-
   <h2>Se algo correr mal</h2>
   <p class="sub">Se um passo falhar, os seguintes ficam parados, mas o que já foi copiado mantém-se.</p>
   <div class="steps">
-    <div class="card"><b>Abrir o monitor</b><p>No servidor, executar <code>iniciar_monitor.ps1</code> e abrir <code>http://127.0.0.1:8088</code>.</p></div>
+    <div class="card"><b>Abrir o monitor</b><p>Em qualquer computador da rede interna, abrir <code>http://SERVIDOR:8088</code>.</p></div>
     <div class="card"><b>Ver o que falhou</b><p>O monitor mostra qual o passo que falhou. Os detalhes estão na pasta <code>logs</code>.</p></div>
     <div class="card"><b>Corrigir e repetir</b><p>Resolver a causa e voltar a correr. Se houver dúvidas, chamar o responsável técnico.</p></div>
   </div>
   <div class="never">⚠️ <b>Nunca</b> apagar tabelas nem dados de controlo para «forçar» uma atualização. Isso pode duplicar ou perder informação.</div>
+</section>
+
+<section>
+  <h2>Consultar e instalar</h2>
+  <p class="sub">Tudo a partir da pasta do projeto, no servidor.</p>
+  <div class="steps">
+    <div class="card"><b>Ver os consumos</b><p>Em qualquer computador da rede interna, abrir <code>http://SERVIDOR:8089</code>. Filtrar por datas, cliente ou comercial e clicar num valor para ver as linhas.</p></div>
+    <div class="card"><b>Instalar as tarefas</b><p>Executar <code>instalar_tudo.ps1</code> como administrador. Com <code>-ValidateOnly</code> só mostra o que faria.</p></div>
+    <div class="card"><b>Encontrar o código</b><p>Python em <code>sync</code>, horários em <code>agendamento</code>, SQL em <code>sql</code>, documentação em <code>docs</code>.</p></div>
+  </div>
 </section>
 
 <div class="more">
